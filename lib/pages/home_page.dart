@@ -1,5 +1,9 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/pages/navbar_pages/account_page.dart';
+import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
+import 'package:movie_streaming_app/pages/navbar_pages/other_page.dart';
+import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -12,12 +16,26 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
+  PageController controller = PageController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
-      body: CustomScrollView(),
+      backgroundColor: Colors.black,
+      body: PageView(
+        controller: controller,
+        children: const [
+          HomeScreen(),
+          OtherPage(),
+          PlaylistPage(),
+          AccPage(),
+        ],
+        onPageChanged: (int index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+      ),
       bottomNavigationBar: navbar(),
     );
   }
@@ -26,29 +44,65 @@ class _HomePageState extends State<HomePage> {
     return CustomNavigationBar(
       elevation: 0.0,
       iconSize: 30.0,
-      selectedColor: Color(0xff625aff),
-      strokeColor: Color(0xff625aff),
-      unSelectedColor: Colors.white,
-      backgroundColor: Color(0xffa9a5f2),
+      selectedColor: Colors.white,
+      strokeColor: Colors.white,
+      unSelectedColor: Colors.grey,
+      backgroundColor: Colors.black87,
       items: [
         CustomNavigationBarItem(
-          icon: Icon(Icons.home),
+          title: Text(
+            "Home",
+            style: TextStyle(
+              color: currentIndex == 0 ? Colors.white : Colors.grey,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          icon: const Icon(Icons.home),
         ),
         CustomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart),
+          icon: const Icon(
+            Icons.search,
+          ),
+          title: Text(
+            "Search",
+            style: TextStyle(
+              color: currentIndex == 1 ? Colors.white : Colors.grey,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         CustomNavigationBarItem(
-          icon: Icon(Icons.lightbulb_outline),
+          icon: const Icon(
+            Icons.video_collection_rounded,
+          ),
+          title: Text(
+            "My Playlist",
+            style: TextStyle(
+              color: currentIndex == 2 ? Colors.white : Colors.grey,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         CustomNavigationBarItem(
-          icon: Icon(Icons.search),
-        ),
-        CustomNavigationBarItem(
-          icon: Icon(Icons.account_circle),
+          icon: const Icon(
+            Icons.account_circle_outlined,
+          ),
+          title: Text(
+            "Home",
+            style: TextStyle(
+              color: currentIndex == 3 ? Colors.white : Colors.grey,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ],
       currentIndex: currentIndex,
       onTap: (index) {
+        controller.jumpToPage(index);
         setState(() {
           currentIndex = index;
         });
