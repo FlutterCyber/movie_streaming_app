@@ -12,11 +12,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return Scaffold(
       backgroundColor: Colors.green,
       body: Center(
         child: Text("Home Page",style: TextStyle(color: Colors.black),),
       ),
     );
+=======
+    return Container();
+>>>>>>> origin/master
   }
 }
