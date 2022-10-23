@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/pages/home_page.dart';
 import 'package:movie_streaming_app/pages/lottie_page.dart';
 
 void main() {
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: LottiePage(),
+      routes: {
+        HomePage.id:(context) => HomePage(),
+      },
     );
   }
 }
