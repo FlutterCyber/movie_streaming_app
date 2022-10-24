@@ -103,16 +103,15 @@ class _AccountState extends State<Account> {
       body: Stack(
         children: [
           Container(
-            color: Colors.green,
+            color: Colors.black,
             width: double.infinity,
             height: double.infinity,
-
           ),
           Container(
             margin: EdgeInsets.only(top: 200),
             height: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.green.shade200,
+              color: Colors.white10,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(50),
                 topRight: Radius.circular(50),
@@ -124,7 +123,9 @@ class _AccountState extends State<Account> {
                 child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-
+                    const SizedBox(
+                      height: 20,
+                    ),
                     buildcontainer("User Name", doit(), textcontroller),
                     buildcontainer("Login", doit(), logcontroller),
                     buildcontainer("Parol", doit(), passtcontroller),
@@ -139,17 +140,20 @@ class _AccountState extends State<Account> {
                 /// avatar photo
                 child: Center(
                   child: Container(
-                    margin: EdgeInsets.only(top: 160),
+                    margin: const EdgeInsets.only(
+                      top: 160,
+                    ),
                     height: 80,
                     width: 80,
                     decoration: BoxDecoration(
-                      color: Colors.blueGrey,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Icon(
                         Icons.person,
                         size: 50,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -169,16 +173,34 @@ class _AccountState extends State<Account> {
       String str, void doit, TextEditingController controller) {
     return GestureDetector(
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 15),
+        margin: const EdgeInsets.symmetric(
+          vertical: 15,
+        ),
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+        ),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: Colors.green.withOpacity(0.2),
-            border: Border.all(color: Colors.green)),
+          borderRadius: BorderRadius.circular(
+            15,
+          ),
+          color: Colors.red.withOpacity(
+            0.2,
+          ),
+          border: Border.all(
+            color: Colors.red,
+          ),
+        ),
         child: TextField(
           controller: controller,
-          decoration: InputDecoration(hintText: str, border: InputBorder.none),
+          decoration: InputDecoration(
+            hintText: str,
+            hintStyle: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            border: InputBorder.none,
+          ),
           textAlign: TextAlign.center,
         ),
       ),

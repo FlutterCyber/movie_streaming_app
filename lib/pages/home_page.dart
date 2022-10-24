@@ -1,6 +1,6 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_streaming_app/pages/navbar_pages/account_page.dart';
+import 'package:movie_streaming_app/pages/account_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/other_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
           HomeScreen(),
           OtherPage(),
           PlaylistPage(),
-          AccPage(),
+          Account(),
         ],
         onPageChanged: (int index) {
           setState(() {
