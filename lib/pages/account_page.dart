@@ -108,7 +108,7 @@ class _AccountState extends State<Account> {
             height: double.infinity,
           ),
           Container(
-            margin: EdgeInsets.only(top: 200),
+            margin: EdgeInsets.only(top: 120),
             height: double.infinity,
             decoration: BoxDecoration(
               color: Colors.white10,
@@ -119,6 +119,7 @@ class _AccountState extends State<Account> {
             ),
             child: SingleChildScrollView(
               child: Container(
+                width: double.infinity,
                 padding: EdgeInsets.all(30),
                 child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,9 +127,6 @@ class _AccountState extends State<Account> {
                     const SizedBox(
                       height: 20,
                     ),
-                    buildcontainer("User Name", doit(), textcontroller),
-                    buildcontainer("Login", doit(), logcontroller),
-                    buildcontainer("Parol", doit(), passtcontroller),
                   ],
                 ),
               ),
@@ -140,11 +138,9 @@ class _AccountState extends State<Account> {
                 /// avatar photo
                 child: Center(
                   child: Container(
-                    margin: const EdgeInsets.only(
-                      top: 160,
-                    ),
-                    height: 80,
-                    width: 80,
+                    margin: const EdgeInsets.only(top: 60, bottom: 10),
+                    height: 100,
+                    width: 90,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -162,6 +158,22 @@ class _AccountState extends State<Account> {
                   // select(context);
                 },
               ),
+              Text(
+                "Lorem Ipsum",
+                style: TextStyle(color: Colors.white, fontSize: 25),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                "Lorem Ipsum",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              buildcontainer("Settings", doit, textcontroller),
+              buildcontainer("Notifications", doit, textcontroller),
             ],
           )
         ],
@@ -171,8 +183,27 @@ class _AccountState extends State<Account> {
 
   Widget buildcontainer(
       String str, void doit, TextEditingController controller) {
-    return GestureDetector(
-      child: Container(
+    return Container(
+      margin: EdgeInsets.only(right: 10, left: 10,bottom: 10,top: 10),
+      padding: EdgeInsets.only(right: 15, left: 20),
+      height: 50,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: Colors.grey, borderRadius: BorderRadius.circular(20)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            str,
+            style: TextStyle(fontSize: 18),
+          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward_ios))
+        ],
+      ),
+    );
+  }
+}
+/*Container(
         margin: const EdgeInsets.symmetric(
           vertical: 15,
         ),
@@ -203,7 +234,4 @@ class _AccountState extends State<Account> {
           ),
           textAlign: TextAlign.center,
         ),
-      ),
-    );
-  }
-}
+      )*/
