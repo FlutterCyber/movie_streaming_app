@@ -1,10 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:movie_streaming_app/resources/home_screen_resources.dart';
-import 'package:movie_streaming_app/screens/search_bar_screen.dart';
+import 'package:movie_streaming_app/screens/app_bar_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String id = "Wcsucscb";
+  static const String id = "jodfiejdf";
 
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -13,208 +14,81 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String searchValue = "";
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   actions: [
-      //     GestureDetector(
-      //       child: const Icon(
-      //         Icons.search_sharp,
-      //         color: Colors.white,
-      //         size: 40,
-      //       ),
-      //       onTap: () {
-      //         showSearch(
-      //           context: context,
-      //           delegate: MySearchBar(),
-      //         );
-      //       },
-      //     ),
-      //     const SizedBox(width: 10),
-      //   ],
-      // ),
-      body: CustomScrollView(
-        slivers: [
-          appBar(),
-          SliverToBoxAdapter(
-            child: Container(
-              height: 2000,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  String categoryView(List<String> categories) {
-    String text = '';
-    for (int i = 0; i < categories.length; i++) {
-      if (i != categories.length - 1) {
-        text += "${categories[i]} • ";
-      } else {
-        text += categories[i];
-      }
-    }
-    return text;
-  }
-
-  Widget appBar(){
-    return  SliverAppBar(
-      actions: [
-        GestureDetector(
-          child: const Icon(
-            Icons.search_sharp,
-            color: Colors.white,
-            size: 40,
+    return Stack(
+      children: [
+        Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.rotationX(pi),
+          child: Image.asset(
+            'assets/images/img_1.png',
+            alignment: FractionalOffset.topCenter,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
           ),
-          onTap: () {
-            showSearch(
-              context: context,
-              delegate: MySearchBar(),
-            );
-          },
         ),
-        //const SizedBox(width: 10),
+        Container(
+          width: MediaQuery.of(context).size.width * 1,
+          height: MediaQuery.of(context).size.height * 1,
+          color: Color(0xff1D1E33).withOpacity(0.8),
+        ),
+        BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 20.0,
+            sigmaY: 20.0,
+          ),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: CustomScrollView(
+              slivers: [
+                AppbarScreen(),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 2000,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
       ],
-      floating: true,
-      pinned: true,
-      snap: true,
-      leading: Image.asset(
-        "assets/images/n_icon.png",
-        height: MediaQuery.of(context).size.height * 0.05,
-        width: MediaQuery.of(context).size.height * 0.05,
-        fit: BoxFit.cover,
-      ),
-      expandedHeight: MediaQuery.of(context).size.height * 0.4,
-      flexibleSpace: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              "assets/images/cb39407adad37b0c65fc2ec075636e721-edited.webp",
-              fit: BoxFit.cover,
-            ),
+    );
+  }
+
+  image() {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.5,
+        child: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.rotationX(pi),
+          child: Image.asset(
+            'assets/images/img_1.png',
+            alignment: FractionalOffset.topCenter,
+            fit: BoxFit.cover,
           ),
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.transparent,
-                    Colors.transparent,
-                    Colors.black38,
-                    Colors.black54,
-                    Colors.black87,
-                  ],
-                ),
-              ),
-              alignment: Alignment.bottomCenter,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 16,
-                        right: 16,
-                        bottom: 12,
-                      ),
-                      child: Center(
-                        child: Text(
-                          HomeScreenResources.appbarMovie,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        categoryView(HomeScreenResources.category),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          child: Column(
-                            children: const [
-                              Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                "My List",
-                                style: TextStyle(
-                                    color: Colors.white54,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                        ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                          ),
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.play_arrow,
-                            color: Colors.black,
-                          ),
-                          label: const Text(
-                            "Play",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        GestureDetector(
-                          child: Column(
-                            children: const [
-                              Icon(
-                                Icons.info_outline,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                "Info",
-                                style: TextStyle(
-                                    color: Colors.white54,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-
+  Widget wheel() {
+    return SliverToBoxAdapter(
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.4,
+        width: MediaQuery.of(context).size.width,
+        child: ListWheelScrollView.useDelegate(
+          itemExtent: 40,
+          childDelegate: ListWheelChildBuilderDelegate(
+              childCount: 10,
+              builder: (context,index){
+                return Text("$index dedededefc");
+              }
+          ),
+        ),
+      ),
+    );
+  }
 }
