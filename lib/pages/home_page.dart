@@ -1,5 +1,7 @@
-import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
 import 'package:movie_streaming_app/pages/account_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/other_page.dart';
@@ -36,77 +38,103 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),
-      bottomNavigationBar: navbar(),
+      floatingActionButton: navbar(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // bottomNavigationBar: navbar(),
     );
   }
 
   Widget navbar() {
-    return CustomNavigationBar(
-      elevation: 0.0,
-      iconSize: 30.0,
-      selectedColor: Colors.white,
-      strokeColor: Colors.white,
-      unSelectedColor: Colors.grey,
-      backgroundColor: Colors.black87,
-      items: [
-        CustomNavigationBarItem(
-          title: Text(
-            "Home",
-            style: TextStyle(
-              color: currentIndex == 0 ? Colors.white : Colors.grey,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(50),
+        topRight: Radius.circular(50),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(
+          sigmaX: 15,
+          sigmaY: 15,
+        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.085,
+          padding: const EdgeInsets.only(),
+          decoration: const BoxDecoration(
+            //color: Colors.white.withOpacity(0.0),
+            gradient: LinearGradient(
+              colors: [
+                Color(0xff1b1a31),
+                Colors.black12,
+                Color(0xff1b1a31),
+                Colors.black12,
+              ],
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50),
+              topRight: Radius.circular(50),
             ),
           ),
-          icon: const Icon(Icons.home),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    controller.jumpToPage(0);
+                    currentIndex = 0;
+                  });
+                },
+                child: Icon(
+                  currentIndex == 0 ? IconlyBold.home : IconlyLight.home,
+                  color: currentIndex == 0 ? Colors.white : Colors.grey,
+                  size: currentIndex == 0 ? 34 : 28,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    controller.jumpToPage(1);
+                    currentIndex = 1;
+                  });
+                },
+                child: Icon(
+                  currentIndex == 1 ? IconlyBold.download : IconlyLight.download,
+                  color: currentIndex == 1 ? Colors.white : Colors.grey,
+                  size: currentIndex == 1 ? 34 : 28,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    controller.jumpToPage(2);
+                    currentIndex = 2;
+                  });
+                },
+                child: Icon(
+                  currentIndex == 2 ? IconlyBold.download : IconlyLight.download,
+                  color: currentIndex == 2 ? Colors.white : Colors.grey,
+                  size: currentIndex == 2 ? 34 : 28,
+                ),
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    controller.jumpToPage(3);
+                    currentIndex = 3;
+                  });
+                },
+                child: Icon(
+                  currentIndex == 3 ? IconlyBold.profile : IconlyLight.profile,
+                  color: currentIndex == 3 ? Colors.white : Colors.grey,
+                  size: currentIndex == 3 ? 34 : 28,
+                ),
+              ),
+
+            ],
+          ),
         ),
-        CustomNavigationBarItem(
-          icon: const Icon(
-            Icons.search,
-          ),
-          title: Text(
-            "Search",
-            style: TextStyle(
-              color: currentIndex == 1 ? Colors.white : Colors.grey,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        CustomNavigationBarItem(
-          icon: const Icon(
-            Icons.video_collection_rounded,
-          ),
-          title: Text(
-            "My Playlist",
-            style: TextStyle(
-              color: currentIndex == 2 ? Colors.white : Colors.grey,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        CustomNavigationBarItem(
-          icon: const Icon(
-            Icons.account_circle_outlined,
-          ),
-          title: Text(
-            "Home",
-            style: TextStyle(
-              color: currentIndex == 3 ? Colors.white : Colors.grey,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ],
-      currentIndex: currentIndex,
-      onTap: (index) {
-        controller.jumpToPage(index);
-        setState(() {
-          currentIndex = index;
-        });
-      },
+      ),
     );
   }
 }
