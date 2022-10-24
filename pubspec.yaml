@@ -38,6 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   lottie: ^1.4.3
   custom_navigation_bar: ^0.8.2
+  image_picker: ^0.8.6
+  cached_network_image: ^3.2.2
 
 
 
