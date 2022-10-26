@@ -1,6 +1,4 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,11 +13,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PageController controller = PageController();
   int currentIndex = 0;
-  int categoryIndex = 2;
+  int categoryIndex = 0;
   bool isWorked = false;
   List<String> images = [
     "assets/images/img_1.png",
-    "assets/images/img_4.png",
+    "assets/images/img_2.png",
     "assets/images/img_3.png"
   ];
   List<String> movieNames = [
@@ -37,96 +35,130 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         flexibleSpace: categoryRow(),
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            images[currentIndex],
-            fit: BoxFit.cover,
-          ),
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.transparent,
-                  Colors.transparent,
-                  Color(0xff53537a),
-                  Color(0xff53537a),
-                  Color(0xff53537a),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(),
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.45,
-                  child: PageView(
-                    controller: controller,
-                    children: [
-                      Container(),
-                      Container(),
-                      Container(),
-                    ],
-                    onPageChanged: (int index) {
-                      setState(() {
-                        currentIndex = index;
-                      });
-                    },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.5,
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.asset(
+                    images[currentIndex],
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topCenter,
                   ),
-                ),
-              ],
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.35,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 16, bottom: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        movieNames[currentIndex],
-                        style: GoogleFonts.mochiyPopOne(
-                          //textStyle: Theme.of(context).textTheme.headline4,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.left,
-                        maxLines: 10,
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          Colors.transparent,
+                          Colors.transparent,
+                          Color(0xff38404b).withOpacity(0.4),
+                          Color(0xff38404b).withOpacity(0.6),
+                          Color(0xff38404b).withOpacity(0.8),
+                          Color(0xff38404b),
+                          Color(0xff38404b),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isWorked = !isWorked;
-                        });
-                      },
-                      child: Icon(
-                        IconlyBold.play,
-                        color: Colors.red,
-                        size: 50,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(),
+                    height: MediaQuery.of(context).size.height*0.5,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.45,
+                          child: PageView(
+                            controller: controller,
+                            children: [
+                              Container(),
+                              Container(),
+                              Container(),
+                            ],
+                            onPageChanged: (int index) {
+                              setState(() {
+                                currentIndex = index;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.45,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 16,
+                                right: 16,
+                                top: 16,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      movieNames[currentIndex],
+                                      style: const TextStyle(
+                                        //textStyle: Theme.of(context).textTheme.headline4,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                      maxLines: 10,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    // color: Colors.blue,
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isWorked = !isWorked;
+                                        });
+                                      },
+                                      child: const Icon(
+                                        IconlyBold.play,
+                                        color: Colors.red,
+                                        size: 50,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                      indicator(),
+                    ],
+                  ),
+                ],
               ),
-              indicator(),
-            ],
-          )
-        ],
+            ),
+            Container(
+              height: 200,
+              decoration: const BoxDecoration(
+                color:  Color(0xff38404b),
+                //color: Colors.red
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -147,8 +179,9 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 5,
               width: currentIndex == 0 ? 25 : 15,
               decoration: BoxDecoration(
-                  color: currentIndex == 0 ? Colors.white : Colors.grey,
-                  borderRadius: BorderRadius.circular(5)),
+                color: currentIndex == 0 ? Colors.white : Colors.grey,
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
             onTap: () {
               setState(() {
@@ -164,8 +197,9 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 5,
               width: currentIndex == 1 ? 25 : 15,
               decoration: BoxDecoration(
-                  color: currentIndex == 1 ? Colors.white : Colors.grey,
-                  borderRadius: BorderRadius.circular(5)),
+                color: currentIndex == 1 ? Colors.white : Colors.grey,
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
             onTap: () {
               setState(() {
@@ -181,8 +215,9 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 5,
               width: currentIndex == 2 ? 25 : 15,
               decoration: BoxDecoration(
-                  color: currentIndex == 2 ? Colors.white : Colors.grey,
-                  borderRadius: BorderRadius.circular(5)),
+                color: currentIndex == 2 ? Colors.white : Colors.grey,
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
             onTap: () {
               setState(() {
@@ -223,13 +258,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 bottom: 4,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: categoryIndex == 0 ? Colors.black45 : Colors.black38,
+                borderRadius: BorderRadius.circular(8),
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xffffffff).withOpacity(0.3),
+                    const Color(0xffffffff).withOpacity(0.3),
+                  ],
+                ),
               ),
               child: Text(
                 "Movies",
                 style: TextStyle(
-                  color: categoryIndex == 0 ? Colors.white : Colors.white60,
+                  color: categoryIndex == 0
+                      ? const Color(0xff38404b)
+                      : const Color(0xff38404b).withOpacity(0.6),
                   fontWeight: FontWeight.bold,
                   fontSize: categoryIndex == 0 ? 15 : 14,
                 ),
@@ -250,13 +292,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 bottom: 4,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: categoryIndex == 1 ? Colors.black45 : Colors.black38,
+                borderRadius: BorderRadius.circular(8),
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xffffffff).withOpacity(0.3),
+                    const Color(0xffffffff).withOpacity(0.3),
+                  ],
+                ),
               ),
               child: Text(
                 "Series",
                 style: TextStyle(
-                  color: categoryIndex == 1 ? Colors.white : Colors.white60,
+                  color: categoryIndex == 1
+                      ? const Color(0xff38404b)
+                      : const Color(0xff38404b).withOpacity(0.6),
                   fontWeight: FontWeight.bold,
                   fontSize: categoryIndex == 1 ? 15 : 14,
                 ),
@@ -277,13 +326,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 bottom: 4,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: categoryIndex == 2 ? Colors.black45 : Colors.black38,
+                borderRadius: BorderRadius.circular(8),
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xffffffff).withOpacity(0.3),
+                    const Color(0xffffffff).withOpacity(0.3),
+                  ],
+                ),
               ),
               child: Text(
                 "Trailers",
                 style: TextStyle(
-                  color: categoryIndex == 2 ? Colors.white : Colors.white60,
+                  color: categoryIndex == 2
+                      ? const Color(0xff38404b)
+                      : const Color(0xff38404b).withOpacity(0.6),
                   fontWeight: FontWeight.bold,
                   fontSize: categoryIndex == 2 ? 15 : 14,
                 ),
