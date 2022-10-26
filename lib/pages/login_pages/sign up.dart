@@ -16,8 +16,7 @@ class _SignUpPageState extends State<SignUpPage> {
   var emailcontrol = TextEditingController();
   var passwordcontrol1 = TextEditingController();
   var passwordcontrol2 = TextEditingController();
-  bool hidetext1 = false;
-  bool hidetext2 = false;
+  bool hidetext1 = true;
 
 
   @override
@@ -75,7 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   blur: 4,
                   // blur xiralik darajasi
                   alignment: Alignment.center,
-                  border: 1,
+                  border: 0.0,
                   linearGradient: LinearGradient(
                     colors: [
                       const Color(0xffffffff).withOpacity(

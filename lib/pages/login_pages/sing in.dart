@@ -14,6 +14,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   var emailcontrol = TextEditingController();
   var passwordcontrol = TextEditingController();
+  bool hidetext = true;
 
   @override
   Widget build(BuildContext context) {
@@ -141,12 +142,28 @@ class _SignInPageState extends State<SignInPage> {
                           cursorColor: Colors.red,
                           textAlign: TextAlign.start,
                           controller: passwordcontrol,
-                          //obscureText: false, textni yashirish
+                          obscureText: hidetext,
+                          //textni yashirish
                           style: const TextStyle(
                             fontSize: 17,
                           ),
                           textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    hidetext = !hidetext;
+                                  });
+                                },
+                                icon: hidetext
+                                    ? Icon(
+                                        Icons.visibility_off,
+                                        color: Colors.grey,
+                                      )
+                                    : Icon(
+                                        Icons.visibility,
+                                        color: Colors.grey,
+                                      )),
                             hintText: "Password",
                             border: InputBorder.none,
                             hintStyle: TextStyle(

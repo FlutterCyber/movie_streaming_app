@@ -140,12 +140,12 @@ class _StartPageState extends State<StartPage> {
                         ),
                         child: Center(
                             child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            )),
+                          "Sign Up",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )),
                       ),
                     ),
                     //SignIN
@@ -161,13 +161,14 @@ class _StartPageState extends State<StartPage> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Center(
-                            child: Text(
-                              "Sign In",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            )),
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -213,81 +214,82 @@ class _PageViewWidgetState extends State<PageViewWidget> {
     // TODO: implement initState
     super.initState();
     pageController =
-    PageController(initialPage: 0, viewportFraction: viewportFraction)
-      ..addListener(() {
-        setState(() {
-          pageoffset = pageController.page!;
-        });
-      });
+        PageController(initialPage: 0, viewportFraction: viewportFraction)
+          ..addListener(() {
+            setState(() {
+              pageoffset = pageController.page!;
+            });
+          });
   }
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
-        controller: pageController,
-        itemCount: _list.length,
-        itemBuilder: (context, index) {
-          double scale = max(viewportFraction,
-              (1 - (pageoffset - index).abs()) + viewportFraction);
+      controller: pageController,
+      itemCount: _list.length,
+      itemBuilder: (context, index) {
+        double scale = max(viewportFraction,
+            (1 - (pageoffset - index).abs()) + viewportFraction);
 
-          double angle = (pageoffset - index).abs();
+        double angle = (pageoffset - index).abs();
 
-          if (angle > 0.5) {
-            angle = 1 - angle;
-          }
+        if (angle > 0.5) {
+          angle = 1 - angle;
+        }
 
-          return Container(
-            padding: EdgeInsets.only(
-              right: 20,
-              left: 10,
-              top: 100 - scale * 50,
-            ),
-            child: Column(
-              children: [
-                Transform(
-                  transform: Matrix4.identity()
-                    ..setEntry(3, 2, 0)
-                    ..rotateY(angle),
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.red.withOpacity(0.3),
-                                spreadRadius: 5,
-                                blurRadius: 20,
-                                offset: Offset(5, 5)),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
-                          child: Image.asset(
-                            _list[index],
-                            fit: BoxFit.cover,
-                            height: 300,
-                            width: 200,
-                          ),
-                        ),
+        return Container(
+          padding: EdgeInsets.only(
+            right: 20,
+            left: 10,
+            top: 100 - scale * 50,
+          ),
+          child: Column(
+            children: [
+              Transform(
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0)
+                  ..rotateY(angle),
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.red.withOpacity(0.3),
+                              spreadRadius: 5,
+                              blurRadius: 20,
+                              offset: Offset(5, 5)),
+                        ],
                       ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Center(
-                        child: Text(
-                          nameofmov[index],
-                          style: GoogleFonts.aBeeZee(
-                              fontSize: 25, color: Colors.white),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.asset(
+                          _list[index],
+                          fit: BoxFit.cover,
+                          height: 300,
+                          width: 200,
                         ),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-        });
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Center(
+                      child: Text(
+                        nameofmov[index],
+                        style: GoogleFonts.aBeeZee(
+                            fontSize: 25, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }
