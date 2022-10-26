@@ -39,36 +39,34 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: navbar(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       // bottomNavigationBar: navbar(),
     );
   }
 
   Widget navbar() {
     return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(50),
-        topRight: Radius.circular(50),
-      ),
+      borderRadius: BorderRadius.circular(20),
       child: BackdropFilter(
         filter: ImageFilter.blur(
           sigmaX: 15,
           sigmaY: 15,
         ),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.085,
+          height: MediaQuery.of(context).size.height * 0.075,
+          margin: const EdgeInsets.only(
+            left: 12,
+            right: 12,
+          ),
           padding: const EdgeInsets.only(),
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xff16172B).withOpacity(0.5),
-                Color(0xff16172B).withOpacity(0.5),
+                const Color(0xffffffff).withOpacity(0.1),
+                const Color(0xffffffff).withOpacity(0.1),
               ],
             ),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(50),
-              topRight: Radius.circular(50),
-            ),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -84,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                 child: Icon(
                   currentIndex == 0 ? IconlyBold.home : IconlyLight.home,
                   color: currentIndex == 0 ? Colors.white : Colors.grey,
-                  size: currentIndex == 0 ? 34 : 28,
+                  size: currentIndex == 0 ? 30 : 28,
                 ),
               ),
               GestureDetector(
@@ -95,9 +93,11 @@ class _HomePageState extends State<HomePage> {
                   });
                 },
                 child: Icon(
-                  currentIndex == 1 ? IconlyBold.download : IconlyLight.download,
+                  currentIndex == 1
+                      ? IconlyBold.download
+                      : IconlyLight.download,
                   color: currentIndex == 1 ? Colors.white : Colors.grey,
-                  size: currentIndex == 1 ? 34 : 28,
+                  size: currentIndex == 1 ? 30 : 28,
                 ),
               ),
               GestureDetector(
@@ -110,10 +110,9 @@ class _HomePageState extends State<HomePage> {
                 child: Icon(
                   currentIndex == 2 ? IconlyBold.chat : IconlyLight.chat,
                   color: currentIndex == 2 ? Colors.white : Colors.grey,
-                  size: currentIndex == 2 ? 34 : 28,
+                  size: currentIndex == 2 ? 30 : 28,
                 ),
               ),
-
               GestureDetector(
                 onTap: () {
                   setState(() {
@@ -124,10 +123,9 @@ class _HomePageState extends State<HomePage> {
                 child: Icon(
                   currentIndex == 3 ? IconlyBold.profile : IconlyLight.profile,
                   color: currentIndex == 3 ? Colors.white : Colors.grey,
-                  size: currentIndex == 3 ? 34 : 28,
+                  size: currentIndex == 3 ? 30 : 28,
                 ),
               ),
-
             ],
           ),
         ),
