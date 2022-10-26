@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:movie_streaming_app/scroll_test.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = "jodfiejdf";
@@ -26,6 +27,17 @@ class _HomeScreenState extends State<HomeScreen> {
     "The Thirst Movie Name"
   ];
 
+  List<String> imagesAnimated = [
+    "assets/images/img_1.png",
+    "assets/images/img_2.png",
+    "assets/images/img_3.png",
+    "assets/images/img_1.png",
+    "assets/images/img_4.png",
+    "assets/images/img_2.png",
+    "assets/images/img_1.png",
+    "assets/images/img_3.png"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height*0.5,
+              height: MediaQuery.of(context).size.height * 0.5,
               width: MediaQuery.of(context).size.width,
               child: Stack(
                 fit: StackFit.expand,
@@ -56,11 +68,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           Colors.transparent,
                           Colors.transparent,
                           Colors.transparent,
-                          Color(0xff38404b).withOpacity(0.4),
-                          Color(0xff38404b).withOpacity(0.6),
-                          Color(0xff38404b).withOpacity(0.8),
-                          Color(0xff38404b),
-                          Color(0xff38404b),
+                          const Color(0xff38404b).withOpacity(0.4),
+                          const Color(0xff38404b).withOpacity(0.6),
+                          const Color(0xff38404b).withOpacity(0.8),
+                          const Color(0xff38404b),
+                          const Color(0xff38404b),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -69,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Container(
                     padding: const EdgeInsets.only(),
-                    height: MediaQuery.of(context).size.height*0.5,
+                    height: MediaQuery.of(context).size.height * 0.5,
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       children: [
@@ -107,7 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 top: 16,
                               ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Flexible(
                                     child: Text(
@@ -124,7 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   SizedBox(
                                     // color: Colors.blue,
-                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
                                     child: GestureDetector(
                                       onTap: () {
                                         setState(() {
@@ -150,13 +164,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+            ScrollTest(images: imagesAnimated, name: "Fantastic"),
+            ScrollTest(images: imagesAnimated, name: "Drama"),
+            ScrollTest(images: imagesAnimated, name: "Cartoons"),
             Container(
               height: 200,
               decoration: const BoxDecoration(
-                color:  Color(0xff38404b),
+                color: Color(0xff38404b),
                 //color: Colors.red
               ),
-            ),
+            )
           ],
         ),
       ),

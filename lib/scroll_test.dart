@@ -1,18 +1,19 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ScrollTest extends StatefulWidget {
-  const ScrollTest({Key? key}) : super(key: key);
+  const ScrollTest({super.key, required this.images, required this.name});
+
+  final List<String> images;
+  final String name;
 
   @override
   State<ScrollTest> createState() => _ScrollTestState();
 }
 
 class _ScrollTestState extends State<ScrollTest> {
-  FixedExtentScrollController controller = FixedExtentScrollController();
+  FixedExtentScrollController controller =
+      FixedExtentScrollController(initialItem: 3);
+  int currentIndex = 3;
 
   @override
   void dispose() {
@@ -23,60 +24,91 @@ class _ScrollTestState extends State<ScrollTest> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xff38404b),
+        //color: Colors.red
+      ),
+      //color: Colors.red,
+      height: MediaQuery.of(context).size.height * 0.4,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
         children: [
-          const SizedBox(height: 100),
-          Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.rotationZ(pi / 2),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
-              width: MediaQuery.of(context).size.width,
-              child: ListWheelScrollView(
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              right: 12,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  widget.name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "See All",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Center(
+            child: RotatedBox(
+              quarterTurns: 1,
+              child: ListWheelScrollView.useDelegate(
                 controller: controller,
-                children: [
-                  container("assets/images/img_1.png"),
-                  container("assets/images/img_2.png"),
-                  container("assets/images/img_3.png"),
-                  container("assets/images/img_4.png"),
-                  container("assets/images/img_2.png"),
-                  container("assets/images/img_3.png"),
-                ],
-                itemExtent: 100,
+                itemExtent: 120,
                 physics: const FixedExtentScrollPhysics(),
-                // perspective: 0.003,
-                // diameterRatio: 1.19,
-                // onSelectedItemChanged: (index) {},
-                // squeeze: 1.1,
-                // offAxisFraction: 1.3,
+                perspective: 0.001,
+                diameterRatio: 1.2,
+                onSelectedItemChanged: (index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+                squeeze: 1.1,
+                offAxisFraction: 0.5,
                 useMagnifier: true,
                 magnification: 1.2,
+                childDelegate: ListWheelChildBuilderDelegate(
+                    builder: (BuildContext context, int index) {
+                  return container(widget.images[index]);
+                }),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
   container(String img) {
-    return RotationTransition(
-      alignment: Alignment.center,
-      turns: AlwaysStoppedAnimation(270 / 360),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image.asset(
-          img,
-          height: 300,
-          width: 100,
-          fit: BoxFit.cover,
+    return RotatedBox(
+      quarterTurns: 3,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Image.asset(
+            img,
+            height: MediaQuery.of(context).size.height * 0.25,
+            width: MediaQuery.of(context).size.width * 0.2,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
   }
-// RotationTransition(
-//   turns: new AlwaysStoppedAnimation(15 / 360),
-//   child: new Text("Lorem ipsum"),
-// )
 }

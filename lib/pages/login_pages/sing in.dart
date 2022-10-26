@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:movie_streaming_app/pages/login_pages/sign%20up.dart';
@@ -15,7 +17,36 @@ class _SignInPageState extends State<SignInPage> {
   var emailcontrol = TextEditingController();
   var passwordcontrol = TextEditingController();
   bool hidetext = true;
-
+  int index = 0;
+  List<String> images = [
+    "assets/images/img_1.png",
+    "assets/images/img_2.png",
+    "assets/images/img_3.png",
+    "assets/images/img_1.png",
+    "assets/images/img_4.png",
+    "assets/images/img_2.png",
+    "assets/images/img_1.png",
+    "assets/images/img_3.png"
+  ];
+  void slideshow() {
+    Timer.periodic(const Duration(seconds: 2), (timer) {
+      if (index < images.length-1) {
+        setState(() {
+          index++;
+        });
+      } else {
+        setState(() {
+          index = 0;
+        });
+      }
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    slideshow();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,12 +54,10 @@ class _SignInPageState extends State<SignInPage> {
         child: Container(
           height: MediaQuery.of(context).size.height * 1,
           width: MediaQuery.of(context).size.width * 1,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.grey,
             image: DecorationImage(
-              image: AssetImage(
-                "assets/images/img_2.png",
-              ),
+              image: AssetImage(images[index]),
               fit: BoxFit.cover,
             ),
           ),
