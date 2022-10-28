@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:readmore/readmore.dart';
 
 class MoviePage extends StatefulWidget {
   static const String id = "page";
@@ -18,12 +19,20 @@ class _MoviePageState extends State<MoviePage> {
   List<String> images = [
     "assets/images/img_1.png",
   ];
-  String description = "This movie is one of the best movies.";
+  String description =
+      "Dominic Toretto leads a quiet life in the wilderness with "
+      "Letty and his son Brian, but danger is always somewhere around."
+      " The team has to reassemble to save Mr. Nobody after the plane crash, "
+      "which was transporting the captured hacker Cypher. At the scene of the"
+      " accident, the team discovers a mysterious device and soon encounters a"
+      " dangerous criminal and the most reckless driver they have ever dealt "
+      "with. The situation is complicated by the fact that this man is Dominic's "
+      "brother Jacob,"" who was expelled from the family many years ago.";
   String name = "The name of the movie the of the";
 
-  String year="2022";
-  String time="2 h 32 m";
-  String janr="Adventure";
+  String year = "2022";
+  String time = "2 h 32 m";
+  String janr = "Adventure";
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +100,6 @@ class _MoviePageState extends State<MoviePage> {
                                       IconlyBold.play,
                                       color: Colors.red,
                                       size: 50,
-
                                     ),
                                   ),
                                 ),
@@ -126,44 +134,66 @@ class _MoviePageState extends State<MoviePage> {
                               height: MediaQuery.of(context).size.height * 0.1,
                               child: Padding(
                                 padding:
-                                const EdgeInsets.only(left: 30, right: 15),
+                                    const EdgeInsets.only(left: 30, right: 15),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-
                                   children: [
-                                   Icon(IconlyBold.calendar,color: Colors.white,),
+                                    Icon(
+                                      IconlyBold.calendar,
+                                      color: Colors.white,
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text(year,style: TextStyle(color: Colors.white),),
+                                    Text(
+                                      year,
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text("|",style: TextStyle(color: Colors.white),),
+                                    Text(
+                                      "|",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Icon(IconlyBold.time_circle,color: Colors.white,),
+                                    Icon(
+                                      IconlyBold.time_circle,
+                                      color: Colors.white,
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text(time,style: TextStyle(color: Colors.white),),
+                                    Text(
+                                      time,
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text("|",style: TextStyle(color: Colors.white),),
+                                    Text(
+                                      "|",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Icon(IconlyBold.video,color: Colors.white,),
+                                    Icon(
+                                      IconlyBold.video,
+                                      color: Colors.white,
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text(janr,style: TextStyle(color: Colors.white),),
+                                    Text(
+                                      janr,
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
-
                                   ],
                                 ),
                               ),
@@ -210,20 +240,19 @@ class _MoviePageState extends State<MoviePage> {
                             ),
 
                             /////description
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 30, right: 15),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      description,
-                                      style: TextStyle(
-                                          fontSize: 18, color: Colors.white),
-                                    ),
-                                  ],
+                            Container(
+                              padding: EdgeInsets.only(left: 30,right: 15),
+                              child: Flexible(
+
+                                child: ReadMoreText(
+
+                                  description,
+
+                                  trimCollapsedText: "Read more",
+                                  trimExpandedText: "Read less",
+                                  trimMode: TrimMode.Length,
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.white),
                                 ),
                               ),
                             ),
@@ -237,7 +266,7 @@ class _MoviePageState extends State<MoviePage> {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(right: 15,left: 30),
+                    padding: const EdgeInsets.only(right: 15, left: 30),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -248,7 +277,6 @@ class _MoviePageState extends State<MoviePage> {
                               fontWeight: FontWeight.bold,
                               fontSize: 16),
                         ),
-
                       ],
                     ),
                   ),

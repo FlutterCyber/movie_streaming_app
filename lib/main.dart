@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/pages/hammasi%20shu%20yerda%20page.dart';
 import 'package:movie_streaming_app/pages/home_page.dart';
 import 'package:movie_streaming_app/pages/login_pages/sign%20up.dart';
 import 'package:movie_streaming_app/pages/login_pages/sing%20in.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const MoviePage(),
+      home: const AllPage(),
       routes: {
         MoviePage.id: (context) => const MoviePage(),
         StartPage.id: (context) => const StartPage(),
