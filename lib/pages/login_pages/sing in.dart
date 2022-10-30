@@ -29,7 +29,7 @@ class _SignInPageState extends State<SignInPage> {
     "assets/images/img_3.png"
   ];
   void slideshow() {
-    Timer.periodic(const Duration(seconds: 2), (timer) {
+    Timer.periodic(const Duration(seconds: 4), (timer) {
       if (index < images.length-1) {
         setState(() {
           index++;

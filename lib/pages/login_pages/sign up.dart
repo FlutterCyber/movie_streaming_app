@@ -30,9 +30,11 @@ class _SignUpPageState extends State<SignUpPage> {
     "assets/images/img_1.png",
     "assets/images/img_3.png"
   ];
+
+
   void slideshow() {
-    Timer.periodic(const Duration(seconds: 2), (timer) {
-      if (index < images.length-1) {
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      if (index < images.length - 1) {
         setState(() {
           index++;
         });
@@ -43,13 +45,13 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     slideshow();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +63,7 @@ class _SignUpPageState extends State<SignUpPage> {
           decoration: BoxDecoration(
             color: Colors.grey,
             image: DecorationImage(
-              image: AssetImage(
-                images[index]
-              ),
+              image: AssetImage(images[index]),
               fit: BoxFit.cover,
             ),
           ),
@@ -224,11 +224,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                 });
                               },
                               icon: hidetext1
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.visibility_off,
                                       color: Colors.grey,
                                     )
-                                  : Icon(Icons.visibility,color: Colors.grey,),
+                                  : const Icon(
+                                      Icons.visibility,
+                                      color: Colors.grey,
+                                    ),
                             ),
                             hintText: "Password",
                             border: InputBorder.none,
@@ -255,7 +258,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           cursorColor: Colors.red,
                           textAlign: TextAlign.start,
                           controller: passwordcontrol2,
-                          obscureText: hidetext1, //textni yashirish
+                          obscureText: hidetext1,
+                          //textni yashirish
                           style: const TextStyle(
                             fontSize: 17,
                           ),

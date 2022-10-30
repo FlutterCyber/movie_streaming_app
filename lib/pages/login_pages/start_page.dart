@@ -20,11 +20,8 @@ class _StartPageState extends State<StartPage> {
   int index = 0;
   String logo = "WatchMe";
 
-
   @override
   Widget build(BuildContext context) {
-    double _height=MediaQuery.of(context).size.height;
-    double _width=MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xff2b333e),
       body: Stack(
@@ -106,7 +103,7 @@ class _StartPageState extends State<StartPage> {
               ),
 
               SizedBox(
-                height: _height*0.02,
+                height: 20,
               ),
 
               Container(
@@ -131,8 +128,8 @@ class _StartPageState extends State<StartPage> {
                         Navigator.pushReplacementNamed(context, SignUpPage.id);
                       },
                       child: Container(
-                        height: _height*0.08,
-                        width: _width*0.2,
+                        height: 60,
+                        width: 150,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
@@ -156,8 +153,8 @@ class _StartPageState extends State<StartPage> {
                         Navigator.pushReplacementNamed(context, SignInPage.id);
                       },
                       child: Container(
-                        height: _height*0.08,
-                        width: _width*0.2,
+                        height: 60,
+                        width: 150,
                         decoration: BoxDecoration(
                           color: Colors.red.withOpacity(0.6),
                           borderRadius: BorderRadius.circular(20),
@@ -225,8 +222,6 @@ class _PageViewWidgetState extends State<PageViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    double _height=MediaQuery.of(context).size.height;
-    double _width=MediaQuery.of(context).size.height;
     return PageView.builder(
         controller: pageController,
         itemCount: _list.length,
@@ -271,8 +266,8 @@ class _PageViewWidgetState extends State<PageViewWidget> {
                           child: Image.asset(
                             _list[index],
                             fit: BoxFit.cover,
-                            height: _height*0.3,
-                            width: _width*0.25,
+                            height: 300,
+                            width: 200,
                           ),
                         ),
                       ),

@@ -38,11 +38,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   lottie: ^1.4.3
   iconly: ^1.0.1
+  font_awesome_flutter: ^10.2.1
   image_picker: ^0.8.6
   cached_network_image: ^3.2.2
   glassmorphism: ^3.0.0
   google_fonts: ^3.0.1
-  readmore: ^2.2.0
 
 
 
