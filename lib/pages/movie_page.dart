@@ -26,8 +26,8 @@ class _MoviePageState extends State<MoviePage> {
       "which was transporting the captured hacker Cypher. At the scene of the"
       " accident, the team discovers a mysterious device and soon encounters a"
       " dangerous criminal and the most reckless driver they have ever dealt "
-      "with. The situation is complicated by the fact that this man is Dominic's "
-      "brother Jacob,"" who was expelled from the family many years ago.";
+      "brother Jacob,"
+      " who was expelled from the family many years ago.";
   String name = "The name of the movie the of the";
 
   String year = "2022";
@@ -241,18 +241,17 @@ class _MoviePageState extends State<MoviePage> {
 
                             /////description
                             Container(
-                              padding: EdgeInsets.only(left: 30,right: 15),
-                              child: Flexible(
-
-                                child: ReadMoreText(
-
-                                  description,
-
-                                  trimCollapsedText: "Read more",
-                                  trimExpandedText: "Read less",
-                                  trimMode: TrimMode.Length,
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.white),
+                              padding: EdgeInsets.only(left: 30, right: 15),
+                              child: Expanded(
+                                child: Flexible(
+                                  fit: FlexFit.tight,
+                                  child: ReadMoreText(
+                                    description,
+                                    trimCollapsedText: "Read more",
+                                    trimExpandedText: "Read less",
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.white),
+                                  ),
                                 ),
                               ),
                             ),
