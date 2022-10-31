@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:movie_streaming_app/for%20test/timer_image.dart';
-import 'package:movie_streaming_app/pages/DownloadPage.dart';
+import 'package:movie_streaming_app/pages/download_page.dart';
 // import 'package:movie_streaming_app/pages/hammasi%20shu%20yerda%20page.dart';
 import 'package:movie_streaming_app/pages/home_page.dart';
 import 'package:movie_streaming_app/pages/login_pages/sign%20up.dart';

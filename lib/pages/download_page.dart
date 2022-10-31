@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:movie_streaming_app/models/download%20model.dart';
+import 'package:movie_streaming_app/models/download_model.dart';
 
 class DownloadPage extends StatefulWidget {
   static const String id = "sefmegcierwgmcgqempgc34c5t9342";
@@ -20,35 +20,36 @@ class _DownloadPageState extends State<DownloadPage> {
   }
 
   var movie1 = DownloadModel(
-      name: "lorem  sdfdsg df gd fg df gds fhv sd",
-      chanel: "chanel",
-      view: "100 views",
-      movieAge: "1 oy oldin");
-  var movie2 = DownloadModel(
-      name: "lorem Imsum",
-      chanel: "chanel",
-      view: "100 views",
-      movieAge: "1 oy oldin");
+      name: "Forrest Gump",
+      age: "1994",
+      type: "Romantika/Drama",
+      movieimg:"https://cdn.chili.com/images/public/cms/f8/1f/67/81/f81f6781-1ff0-46c7-befe-7c9f5d010e01.jpg?width=616");
+      var movie2 = DownloadModel(
+      name: "Forrest Gump",
+      age: "1994",
+      type: "Romantika/Drama",
+      movieimg:"https://cdn.chili.com/images/public/cms/f8/1f/67/81/f81f6781-1ff0-46c7-befe-7c9f5d010e01.jpg?width=616");
   var movie3 = DownloadModel(
-      name: "lorem Imsum",
-      chanel: "chanel",
-      view: "100 views",
-      movieAge: "1 oy oldin");
+      name: "Forrest Gump",
+      age: "1994",
+      type: "Romantika/Drama",
+      movieimg: "https://cdn.chili.com/images/public/cms/f8/1f/67/81/f81f6781-1ff0-46c7-befe-7c9f5d010e01.jpg?width=616");
   var movie4 = DownloadModel(
-      name: "lorem Imsum",
-      chanel: "chanel",
-      view: "100 views",
-      movieAge: "1 oy oldin");
+      name: "Forrest Gump",
+      age: "1994",
+      type: "Romantika/Drama",
+      movieimg: "https://cdn.chili.com/images/public/cms/f8/1f/67/81/f81f6781-1ff0-46c7-befe-7c9f5d010e01.jpg?width=616");
   var movie5 = DownloadModel(
-      name: "lorem Imsum",
-      chanel: "chanel",
-      view: "100 views",
-      movieAge: "1 oy oldin");
+      name: "Forrest Gump",
+      age: "1994",
+      type: "Romantika/Drama",
+      movieimg: "https://cdn.chili.com/images/public/cms/f8/1f/67/81/f81f6781-1ff0-46c7-befe-7c9f5d010e01.jpg?width=616");
   var movie6 = DownloadModel(
-      name: "lorem Imsum",
-      chanel: "chanel",
-      view: "100 views",
-      movieAge: "1 oy oldin");
+      name: "Forrest Gump",
+      age: "1994",
+      type: "Romantika/Drama",
+      movieimg:"https://cdn.chili.com/images/public/cms/f8/1f/67/81/f81f6781-1ff0-46c7-befe-7c9f5d010e01.jpg?width=616");
+
   List lst = [];
 
   _movieAdd() {
@@ -66,9 +67,9 @@ class _DownloadPageState extends State<DownloadPage> {
       backgroundColor: const Color(0xff2b333e),
       appBar: AppBar(
         //backgroundColor: const Color(0xff2b333e),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black.withOpacity(0.56),
         centerTitle: true,
-        elevation: 0,
+        elevation: 5,
         title: const Text("Downloads", style: TextStyle(fontSize: 20)),
       ),
       body: Container(
@@ -77,7 +78,34 @@ class _DownloadPageState extends State<DownloadPage> {
               image: AssetImage("assets/images/img_4.png"), fit: BoxFit.cover),
         ),
         child: GlassmorphicContainer(
-
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height,
+          borderRadius: 0,
+          blur: 10,
+          // blur xiralik darajasi
+          alignment: Alignment.center,
+          border: 1,
+          linearGradient: LinearGradient(
+            colors: [
+              Colors.black.withOpacity(
+                0.4,
+              ),
+              Colors.black.withOpacity(
+                0.4,
+              ),
+            ],
+          ),
+          borderGradient: LinearGradient(
+            colors: [
+              const Color(0x00000000).withOpacity(0.3),
+              const Color((0x000000)).withOpacity(0.3),
+            ],
+          ),
+          child: ListView.builder(
+              itemCount: lst.length,
+              itemBuilder: (ctx, i) {
+                return itemoflst(lst[i]);
+              }),
         ),
       ),
     );
@@ -110,14 +138,14 @@ class _DownloadPageState extends State<DownloadPage> {
               Container(
                 height: MediaQuery.of(context).size.height * 0.155,
                 width: MediaQuery.of(context).size.width * 0.41,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      "https://avatars.mds.yandex.net/i?id=4161d62f7fffa6b6142136e3e115e742d8d9d88c-4078110-images-thumbs&n=13&exp=1",
-                    ),
-                  ),
-                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        movie.movieimg,
+                      ),
+                    )),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.02,
@@ -136,19 +164,13 @@ class _DownloadPageState extends State<DownloadPage> {
                       ),
                     ),
                     Text(
-                      "@ " + movie.chanel,
+                       movie.type,
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      movie.view,
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      movie.movieAge,
+                      movie.age,
                       style: TextStyle(
                         color: Colors.white,
                       ),
