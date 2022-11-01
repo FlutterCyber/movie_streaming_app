@@ -37,15 +37,16 @@ class _HomeScreenState extends State<HomeScreen> {
     "assets/images/img_1.png",
     "assets/images/img_3.png"
   ];
+
   List<String> names = [
-    "Movie Name1",
-    "Movie Name2",
-    "Movie Name3",
-    "Movie Name4",
-    "Movie Name5",
-    "Movie Name6",
-    "Movie Name7",
-    "Movie Name8",
+    "The First Movie Name",
+    "The Second Movie Name",
+    "The Thirst Movie Name",
+    "The First Movie Name",
+    "The Second Movie Name",
+    "The Thirst Movie Name",
+    "The First Movie Name",
+    "The Second Movie Name",
   ];
 
   @override
@@ -174,9 +175,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            ScrollTest(images: imagesAnimated, name: "Fantastic", movie: names),
-            ScrollTest(images: imagesAnimated, name: "Drama",  movie: names),
-            ScrollTest(images: imagesAnimated, name: "Cartoons",  movie: names),
+            ScrollTest(images: imagesAnimated, name: "Fantastic", movie: names,),
+            ScrollTest(images: imagesAnimated, name: "Drama", movie: names,),
+            ScrollTest(images: imagesAnimated, name: "Cartoons", movie:names,),
             Container(
               height: 200,
               decoration: const BoxDecoration(
@@ -189,6 +190,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  
+
+
+
+
+
+
 
   Widget indicator() {
     return Padding(
