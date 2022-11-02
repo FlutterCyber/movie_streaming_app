@@ -104,14 +104,14 @@ class _DownloadPageState extends State<DownloadPage> {
           child: ListView.builder(
               itemCount: lst.length,
               itemBuilder: (ctx, i) {
-                return itemoflst(lst[i]);
+                return itemOflst(lst[i]);
               }),
         ),
       ),
     );
   }
 
-  Widget itemoflst(DownloadModel movie) {
+  Widget itemOflst(DownloadModel movie) {
     return Container(
       margin: const EdgeInsets.only(top: 5, left: 10, right: 10),
       height: MediaQuery.of(context).size.height * 0.17,
@@ -130,7 +130,7 @@ class _DownloadPageState extends State<DownloadPage> {
         blur: 2,
         borderGradient: const LinearGradient(colors: []),
         child: Container(
-          margin: EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 10),
           child: Row(
             // crossAxisAlignment: CrossAxisAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.start,
