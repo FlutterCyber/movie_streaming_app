@@ -1,3 +1,4 @@
+import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_streaming_app/pages/hammasi_shu_yerda_page.dart';
 import 'package:movie_streaming_app/pages/home_page.dart';
@@ -7,10 +8,11 @@ import 'package:movie_streaming_app/pages/login_pages/start_page.dart';
 import 'package:movie_streaming_app/pages/movie_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
-
 void main() {
+  Firestore.initialize(projectID);
   runApp(const MyApp());
 }
+const projectID = "watch-me-3c437";
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

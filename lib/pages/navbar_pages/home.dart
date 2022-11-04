@@ -175,9 +175,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            ScrollTest(images: imagesAnimated, name: "Fantastic", movie: names,),
-            ScrollTest(images: imagesAnimated, name: "Drama", movie: names,),
-            ScrollTest(images: imagesAnimated, name: "Cartoons", movie:names,),
+            ScrollTest(
+              images: imagesAnimated,
+              name: "Fantastic",
+              movies: names,
+            ),
+            ScrollTest(
+              images: imagesAnimated,
+              name: "Drama",
+              movies: names,
+            ),
+            ScrollTest(
+              images: imagesAnimated,
+              name: "Cartoons",
+              movies: names,
+            ),
             Container(
               height: 200,
               decoration: const BoxDecoration(
@@ -190,14 +202,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  
-
-
-
-
-
-
 
   Widget indicator() {
     return Padding(

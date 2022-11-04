@@ -1,19 +1,17 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
-import 'package:movie_streaming_app/screens/favourite.dart';
 
 class ScrollTest extends StatefulWidget {
   const ScrollTest({
     super.key,
     required this.images,
     required this.name,
-    required this.movie,
+    required this.movies,
   });
 
   final List<String> images;
   final String name;
-  final List<String> movie;
+  final List<String> movies;
 
   @override
   State<ScrollTest> createState() => _ScrollTestState();
@@ -36,11 +34,7 @@ class _ScrollTestState extends State<ScrollTest> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xff38404b),
-        //color: Colors.red
-      ),
-      //color: Colors.red,
+      color: const Color(0xff38404b),
       height: height * 0.4,
       width: width,
       child: Stack(
@@ -107,6 +101,7 @@ class _ScrollTestState extends State<ScrollTest> {
                     builder: (BuildContext context, int index) {
                   return container(
                     widget.images[index],
+                    widget.movies[index],
                   );
                 }),
               ),
@@ -117,49 +112,59 @@ class _ScrollTestState extends State<ScrollTest> {
     );
   }
 
-  container(String img) {
+  container(String img, String food) {
     return RotatedBox(
       quarterTurns: 3,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 8,
-          right: 8,
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.3,
+        margin: const EdgeInsets.only(
+          left: 4,
+          right: 4,
+          bottom: 14,
+          top: 14,
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: Container(
-            padding: const EdgeInsets.only(
-              right: 5,
-            ),
-            height: MediaQuery.of(context).size.height * 0.25,
-            width: MediaQuery.of(context).size.width * 0.2,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(img),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaY: 10,
-                  sigmaX: 10,
-                ),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      img,
-                      height: MediaQuery.of(context).size.height * 0.2,
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      fit: BoxFit.cover,
-                      alignment: Alignment.topCenter,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(img),
+            fit: BoxFit.cover,
           ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.4,
+              color: Colors.white.withOpacity(0.0),
+              // height: MediaQuery.of(context).size.height * 0.06,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 5,
+                    sigmaY: 5,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Flexible(
+                        child: Text(
+                          food,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -189,7 +194,7 @@ class _ScrollTestState extends State<ScrollTest> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const Icon(
-            IconlyBold.star,
+            Icons.star,
             color: Colors.amber,
             size: 18,
           ),
