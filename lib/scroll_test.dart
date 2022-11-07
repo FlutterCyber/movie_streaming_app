@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'package:movie_streaming_app/screens/favourite.dart';
 
 class ScrollTest extends StatefulWidget {
   const ScrollTest({
