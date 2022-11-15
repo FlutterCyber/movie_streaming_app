@@ -39,10 +39,15 @@ dependencies:
   lottie: ^1.4.3
   iconly: ^1.0.1
   font_awesome_flutter: ^10.2.1
-  image_picker: ^0.8.6
   cached_network_image: ^3.2.2
   glassmorphism: ^3.0.0
   google_fonts: ^3.0.1
+  firebase_database: ^7.0.0
+  firebase_auth: ^3.9.0
+  shared_preferences: ^2.0.15
+  firebase_core: ^1.22.0
+  image_picker: ^0.8.6
+
 
 
 

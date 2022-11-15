@@ -1,8 +1,6 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'package:movie_streaming_app/screens/favourite.dart';
 
 class ScrollTest extends StatefulWidget {
   const ScrollTest({
@@ -111,32 +109,6 @@ class _ScrollTestState extends State<ScrollTest> {
                   );
                 }),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 12,
-              right: 12,
-              bottom: 20,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.movie[currentIndex].toUpperCase(),
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
             ),
           ),
         ],

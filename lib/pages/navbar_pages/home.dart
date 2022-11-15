@@ -38,6 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
     "assets/images/img_3.png"
   ];
 
+  List<String> names = [
+    "The First Movie Name",
+    "The Second Movie Name",
+    "The Thirst Movie Name",
+    "The First Movie Name",
+    "The Second Movie Name",
+    "The Thirst Movie Name",
+    "The First Movie Name",
+    "The Second Movie Name",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,9 +175,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            ScrollTest(images: imagesAnimated, name: "Fantastic", movie: [],),
-            ScrollTest(images: imagesAnimated, name: "Drama", movie: [],),
-            ScrollTest(images: imagesAnimated, name: "Cartoons", movie: [],),
+            ScrollTest(images: imagesAnimated, name: "Fantastic", movie: names,),
+            ScrollTest(images: imagesAnimated, name: "Drama", movie: names,),
+            ScrollTest(images: imagesAnimated, name: "Cartoons", movie:names,),
             Container(
               height: 200,
               decoration: const BoxDecoration(
