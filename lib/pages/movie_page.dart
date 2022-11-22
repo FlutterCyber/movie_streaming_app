@@ -30,11 +30,11 @@ class _MoviePageState extends State<MoviePage> {
 
   @override
   Widget build(BuildContext context) {
-    Icon like_light = Icon(
+    Icon like_light = const Icon(
       Icons.favorite_border,
       color: Colors.red,
     );
-    Icon like_bold = Icon(
+    Icon like_bold = const Icon(
       Icons.favorite,
       color: Colors.red,
     );
@@ -46,7 +46,7 @@ class _MoviePageState extends State<MoviePage> {
         child: Column(
           children: [
             Container(
-              color: Color(0xff38404b),
+              color: const Color(0xff38404b),
               child: Column(
                 children: [
                   SizedBox(
@@ -67,12 +67,12 @@ class _MoviePageState extends State<MoviePage> {
                                 Colors.transparent,
                                 Colors.transparent,
                                 Colors.transparent,
-                                Color(0xff38404b).withOpacity(0.4),
-                                Color(0xff38404b).withOpacity(0.6),
-                                Color(0xff38404b).withOpacity(0.8),
-                                Color(0xff38404b),
-                                Color(0xff38404b),
-                                Color(0xff38404b),
+                                const Color(0xff38404b).withOpacity(0.4),
+                                const Color(0xff38404b).withOpacity(0.6),
+                                const Color(0xff38404b).withOpacity(0.8),
+                                const Color(0xff38404b),
+                                const Color(0xff38404b),
+                                const Color(0xff38404b),
                               ],
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -126,7 +126,7 @@ class _MoviePageState extends State<MoviePage> {
                                       Flexible(
                                           child: Text(
                                         name,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 30,
                                         ),
@@ -137,12 +137,12 @@ class _MoviePageState extends State<MoviePage> {
                                 ),
 
                                 Container(
-                                  padding: EdgeInsets.only(top: 5),
+                                  padding: const EdgeInsets.only(top: 5),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Icon(IconlyBold.star,color: Colors.amber,size: 20,),
+                                      const Icon(IconlyBold.star,color: Colors.amber,size: 20,),
                                       Text(" $rate")
                                     ],
                                   ),
@@ -159,60 +159,60 @@ class _MoviePageState extends State<MoviePage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           IconlyBold.calendar,
                                           color: Colors.white,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
                                           year,
-                                          style: TextStyle(color: Colors.white),
+                                          style: const TextStyle(color: Colors.white),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
-                                        Text(
+                                        const Text(
                                           "|",
                                           style: TextStyle(color: Colors.white),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
-                                        Icon(
+                                        const Icon(
                                           IconlyBold.time_circle,
                                           color: Colors.white,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
                                           time,
-                                          style: TextStyle(color: Colors.white),
+                                          style: const TextStyle(color: Colors.white),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
-                                        Text(
+                                        const Text(
                                           "|",
                                           style: TextStyle(color: Colors.white),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
-                                        Icon(
+                                        const Icon(
                                           IconlyBold.video,
                                           color: Colors.white,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
                                           janr,
-                                          style: TextStyle(color: Colors.white),
+                                          style: const TextStyle(color: Colors.white),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                       ],
@@ -231,7 +231,7 @@ class _MoviePageState extends State<MoviePage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Story Line",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -242,14 +242,14 @@ class _MoviePageState extends State<MoviePage> {
                                           children: [
                                             IconButton(
                                                 onPressed: () {},
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   IconlyLight.download,
                                                   color: Colors.red,
                                                   size: 28,
                                                 )),
                                             IconButton(
                                                 onPressed: () {},
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.share,
                                                   color: Colors.red,
                                                   size: 28,
@@ -266,11 +266,11 @@ class _MoviePageState extends State<MoviePage> {
                                   children: [
                                     Container(
                                       padding:
-                                          EdgeInsets.only(left: 30, right: 15),
+                                          const EdgeInsets.only(left: 30, right: 15),
                                       child: Text(
                                         description,
                                         maxLines: isreadmore ? 10 : 2,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                         ),
                                       ),
@@ -300,8 +300,8 @@ class _MoviePageState extends State<MoviePage> {
                         padding: const EdgeInsets.only(right: 15, left: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
+                          children:const [
+                             Text(
                               "The Cast",
                               style: TextStyle(
                                   color: Colors.white,
@@ -314,8 +314,8 @@ class _MoviePageState extends State<MoviePage> {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Container(
-                          padding: EdgeInsets.only(top: 20),
-                          color: Color(0xff38404b),
+                          padding: const EdgeInsets.only(top: 20),
+                          color: const Color(0xff38404b),
                           child: Row(
                             children: [
                               buildContainer("assets/images/img_1.png"),
@@ -341,7 +341,7 @@ class _MoviePageState extends State<MoviePage> {
 
   Widget buildContainer(String img_link) {
     return Container(
-      margin: EdgeInsets.only(right: 10, left: 10, bottom: 20),
+      margin: const EdgeInsets.only(right: 10, left: 10, bottom: 20),
       width: 75,
       height: 100,
       decoration: BoxDecoration(
