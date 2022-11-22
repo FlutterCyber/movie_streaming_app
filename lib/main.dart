@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const MoviePage(),
+      home: const HomeScreen(),
       routes: {
         MoviePage.id: (context) => const MoviePage(),
         StartPage.id: (context) => const StartPage(),

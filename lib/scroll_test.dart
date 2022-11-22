@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/player/player.dart';
 
 class ScrollTest extends StatefulWidget {
   const ScrollTest({
@@ -113,58 +114,68 @@ class _ScrollTestState extends State<ScrollTest> {
   }
 
   container(String img, String food) {
-    return RotatedBox(
-      quarterTurns: 3,
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.3,
-        margin: const EdgeInsets.only(
-          left: 4,
-          right: 4,
-          bottom: 14,
-          top: 14,
-        ),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(img),
-            fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Player(vd_url: ""),
           ),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.4,
-              color: Colors.white.withOpacity(0.0),
-              // height: MediaQuery.of(context).size.height * 0.06,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 5,
-                    sigmaY: 5,
+        );
+      },
+      child: RotatedBox(
+        quarterTurns: 3,
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.3,
+          margin: const EdgeInsets.only(
+            left: 4,
+            right: 4,
+            bottom: 14,
+            top: 14,
+          ),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(img),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                color: Colors.white.withOpacity(0.0),
+                // height: MediaQuery.of(context).size.height * 0.06,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Flexible(
-                        child: Text(
-                          food,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                      sigmaX: 5,
+                      sigmaY: 5,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Flexible(
+                          child: Text(
+                            food,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

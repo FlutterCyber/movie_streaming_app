@@ -20,6 +20,7 @@ class _PlayerState extends State<Player> {
 
     controller = PodPlayerController(
 
+
       playVideoFrom: PlayVideoFrom.network(widget.vd_url),
     )..initialise();
     super.initState();
@@ -28,10 +29,16 @@ class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black45,
       body: Container(
         child: Center(
           child: PodVideoPlayer(
+            backgroundColor: Colors.grey,
             controller: controller,
+
+
+
+
 
 
           ),

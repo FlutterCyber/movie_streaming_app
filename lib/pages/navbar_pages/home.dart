@@ -154,9 +154,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: GestureDetector(
                                       onTap: () {
 
-                                        setState(() {
-                                          isWorked = !isWorked;
-                                        });
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Player(vd_url: ""),
+                                          ),
+                                        );
                                       },
                                       child: const Icon(
                                         IconlyBold.play,

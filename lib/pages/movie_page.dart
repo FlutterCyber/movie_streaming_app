@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:movie_streaming_app/player/player.dart';
 
 class MoviePage extends StatefulWidget {
   static const String id = "page";
 
-  const MoviePage({Key? key}) : super(key: key);
+  String name;
+  String about;
+  String year;
+
+  String janr;
+  String rate;
+  String img_url;
+  String vd_url;
+
+  MoviePage(
+      {required this.name,
+      required this.janr,
+      required this.rate,
+      required this.about,
+      required this.year,
+      required this.img_url,
+      required this.vd_url
+      });
 
   @override
   State<MoviePage> createState() => _MoviePageState();
@@ -12,9 +30,7 @@ class MoviePage extends StatefulWidget {
 
 class _MoviePageState extends State<MoviePage> {
   PageController controller = PageController();
-  int currentIndex = 0;
-  int categoryIndex = 0;
-  bool isWorked = false;
+
   List<String> images = [
     "assets/images/img_1.png",
   ];
@@ -26,7 +42,7 @@ class _MoviePageState extends State<MoviePage> {
   String time = "2 h 32 m";
   String janr = "Adventure";
   bool isreadmore = false;
-  String rate="8.5";
+  String rate = "8.5";
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +72,7 @@ class _MoviePageState extends State<MoviePage> {
                       fit: StackFit.expand,
                       children: [
                         Image.asset(
-                          images[0],
+                          widget.img_url,
                           fit: BoxFit.cover,
                           alignment: Alignment.topCenter,
                         ),
@@ -98,7 +114,12 @@ class _MoviePageState extends State<MoviePage> {
                                         onTap: () {
                                           setState(
                                             () {
-                                              isWorked = !isWorked;
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => Player(vd_url: widget.vd_url),
+                                                ),
+                                              );
                                             },
                                           );
                                         },
@@ -140,10 +161,15 @@ class _MoviePageState extends State<MoviePage> {
                                   padding: EdgeInsets.only(top: 5),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      Icon(IconlyBold.star,color: Colors.amber,size: 20,),
-                                      Text(" $rate")
+                                      Icon(
+                                        IconlyBold.star,
+                                        color: Colors.amber,
+                                        size: 20,
+                                      ),
+                                      Text(" ${widget.rate}")
                                     ],
                                   ),
                                 ),
@@ -167,7 +193,7 @@ class _MoviePageState extends State<MoviePage> {
                                           width: 5,
                                         ),
                                         Text(
-                                          year,
+                                          widget.year,
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         SizedBox(
@@ -209,7 +235,7 @@ class _MoviePageState extends State<MoviePage> {
                                           width: 5,
                                         ),
                                         Text(
-                                          janr,
+                                          widget.janr,
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         SizedBox(
@@ -268,7 +294,7 @@ class _MoviePageState extends State<MoviePage> {
                                       padding:
                                           EdgeInsets.only(left: 30, right: 15),
                                       child: Text(
-                                        description,
+                                        widget.about,
                                         maxLines: isreadmore ? 8 : 2,
                                         style: TextStyle(
                                           color: Colors.white,
