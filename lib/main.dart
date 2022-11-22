@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const HomePage(),
+      home: const HomeScreen(),
       routes: {
         StartPage.id: (context) => const StartPage(),
         HomePage.id: (context) => const HomePage(),

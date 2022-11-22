@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:movie_streaming_app/player/player.dart';
 import 'package:movie_streaming_app/scroll_test.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -152,6 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         MediaQuery.of(context).size.width * 0.2,
                                     child: GestureDetector(
                                       onTap: () {
+
                                         setState(() {
                                           isWorked = !isWorked;
                                         });
