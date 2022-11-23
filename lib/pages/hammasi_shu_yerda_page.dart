@@ -23,7 +23,7 @@ class _AllPageState extends State<AllPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 200,),
+              const SizedBox(height: 200,),
               button("Sign In", const SignInPage()),
               button("Sign Up", const SignUpPage()),
               button("Start Page", const StartPage()),

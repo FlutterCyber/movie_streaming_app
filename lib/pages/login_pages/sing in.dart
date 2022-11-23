@@ -1,8 +1,13 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:movie_streaming_app/pages/home_page.dart';
 import 'package:movie_streaming_app/pages/login_pages/sign%20up.dart';
+import 'package:movie_streaming_app/screens/loading_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInPage extends StatefulWidget {
   static const String id = "wv937547534h8n";
@@ -28,9 +33,10 @@ class _SignInPageState extends State<SignInPage> {
     "assets/images/img_1.png",
     "assets/images/img_3.png"
   ];
+
   void slideshow() {
     Timer.periodic(const Duration(seconds: 2), (timer) {
-      if (index < images.length-1) {
+      if (index < images.length - 1) {
         setState(() {
           index++;
         });
@@ -41,12 +47,56 @@ class _SignInPageState extends State<SignInPage> {
       }
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     slideshow();
   }
+
+  final auth = FirebaseAuth.instance;
+
+  Future signIn() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: Colors.white24,
+            child: Center(
+              child: Loading.loading(),
+            ),
+          );
+        });
+    final prefs = await SharedPreferences.getInstance();
+    String email = emailcontrol.text.trim();
+    String password = passwordcontrol.text.trim();
+    try {
+      await auth.signIn(email, password).then((value) {
+        prefs.setString("password", password);
+        prefs.setString("email", email);
+        prefs.setBool("logged", true);
+        setState(() {
+          prefs.setBool("logged", true);
+        });
+        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, HomePage.id);
+      });
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Error! Check your password or email and try again'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,34 +141,9 @@ class _SignInPageState extends State<SignInPage> {
                   right: MediaQuery.of(context).size.width * 0.02,
                 ),
                 height: MediaQuery.of(context).size.height * 0.52,
-                child: GlassmorphicContainer(
+                child: SizedBox(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.7,
-                  borderRadius: 15,
-                  blur: 4,
-                  // blur xiralik darajasi
-                  alignment: Alignment.center,
-                  border: 1,
-                  linearGradient: LinearGradient(
-                    colors: [
-                      const Color(0xffffffff).withOpacity(
-                        0.1,
-                      ),
-                      const Color(0xffffffff).withOpacity(
-                        0.1,
-                      ),
-                    ],
-                  ),
-                  // borderGradient: LinearGradient(
-                  //   colors: [
-                  //     const Color(0x00000000).withOpacity(0.3),
-                  //     const Color((0x000000)).withOpacity(0.3),
-                  //   ],
-                  // ),
-                  // sign in UI
-                  borderGradient: const LinearGradient(
-                    colors: [],
-                  ),
                   child: Column(
                     children: [
                       SizedBox(
@@ -185,11 +210,11 @@ class _SignInPageState extends State<SignInPage> {
                                   });
                                 },
                                 icon: hidetext
-                                    ? Icon(
+                                    ? const Icon(
                                         Icons.visibility_off,
                                         color: Colors.grey,
                                       )
-                                    : Icon(
+                                    : const Icon(
                                         Icons.visibility,
                                         color: Colors.grey,
                                       )),
@@ -216,7 +241,9 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         ),
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            signIn();
+                          },
                           child: const Text(
                             "Continue",
                             style: TextStyle(

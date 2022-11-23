@@ -1,10 +1,16 @@
+import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:movie_streaming_app/player/player.dart';
+import 'package:movie_streaming_app/providers/download_provider.dart';
+import 'package:provider/provider.dart';
 
 class MoviePage extends StatefulWidget {
   static const String id = "page";
 
-  const MoviePage({Key? key}) : super(key: key);
+  const MoviePage({required this.movie, super.key});
+
+  final Document movie;
 
   @override
   State<MoviePage> createState() => _MoviePageState();
@@ -12,34 +18,37 @@ class MoviePage extends StatefulWidget {
 
 class _MoviePageState extends State<MoviePage> {
   PageController controller = PageController();
-  int currentIndex = 0;
-  int categoryIndex = 0;
-  bool isWorked = false;
-  List<String> images = [
-    "assets/images/img_1.png",
-  ];
-  String description =
-      """Не получив систематического образования, Чарльз Форт переменил много специальностей, подрабатывал журналистом, пытался реализовать себя как писатель, чему способствовало начавшееся в 1905 году знакомство с Теодором Драйзером, дружба с которым продолжалась до конца жизни Форта. При поддержке Драйзера Ч. Форту удалось опубликовать роман «Производители изгоев» (1909), который не имел успеха. Получив в 1916 году наследство, Чарльз Форт полностью посвятил себя сплошному просмотру периодических изданий США и Великобритании в поисках историй о предметах и животных, якобы, падавших с неба, спонтанных случаях самовозгорания человека, экстрасенсорных способностях и т. д. В 1919 году Форт напечатал первый из четырёх своих сборников""";
   String name = "The name of the movie the of the";
-
-  String year = "2022";
   String time = "2 h 32 m";
-  String janr = "Adventure";
   bool isreadmore = false;
-  String rate="8.5";
+
+  //String rate = "8.5";
 
   @override
   Widget build(BuildContext context) {
-    Icon like_light = const Icon(
-      Icons.favorite_border,
-      color: Colors.red,
-    );
-    Icon like_bold = const Icon(
-      Icons.favorite,
-      color: Colors.red,
-    );
-    bool isliked = false;
     double _height = MediaQuery.of(context).size.height;
+
+    String genre = '';
+
+    if (widget.movie.map['movie']['isThriller']) {
+      genre = " Thriller";
+    }
+    if (widget.movie.map['movie']['isHorror']) {
+      genre = " Horror";
+    }
+    if (widget.movie.map['movie']['isAction']) {
+      genre = " Action";
+    }
+    if (widget.movie.map['movie']['isComedic']) {
+      genre = " Comedy";
+    }
+    if (widget.movie.map['movie']['isFantastic']) {
+      genre = " Fantastic";
+    }
+    if (widget.movie.map['movie']['isDrama']) {
+      genre = " Drama";
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
@@ -55,8 +64,8 @@ class _MoviePageState extends State<MoviePage> {
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
-                        Image.asset(
-                          images[0],
+                        Image.network(
+                          widget.movie.map['movie']['imgUrl'],
                           fit: BoxFit.cover,
                           alignment: Alignment.topCenter,
                         ),
@@ -98,7 +107,16 @@ class _MoviePageState extends State<MoviePage> {
                                         onTap: () {
                                           setState(
                                             () {
-                                              isWorked = !isWorked;
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => Player(
+                                                    vd_url: widget
+                                                            .movie.map['movie']
+                                                        ['videoUrl'],
+                                                  ),
+                                                ),
+                                              );
                                             },
                                           );
                                         },
@@ -124,14 +142,15 @@ class _MoviePageState extends State<MoviePage> {
                                         MainAxisAlignment.spaceAround,
                                     children: [
                                       Flexible(
-                                          child: Text(
-                                        name,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 30,
+                                        child: Text(
+                                          name,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 30,
+                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
-                                        textAlign: TextAlign.center,
-                                      ))
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -140,10 +159,16 @@ class _MoviePageState extends State<MoviePage> {
                                   padding: const EdgeInsets.only(top: 5),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      const Icon(IconlyBold.star,color: Colors.amber,size: 20,),
-                                      Text(" $rate")
+                                      const Icon(
+                                        IconlyBold.star,
+                                        color: Colors.amber,
+                                        size: 20,
+                                      ),
+                                      Text(
+                                          " ${widget.movie.map['movie']['rating']}")
                                     ],
                                   ),
                                 ),
@@ -167,8 +192,10 @@ class _MoviePageState extends State<MoviePage> {
                                           width: 5,
                                         ),
                                         Text(
-                                          year,
-                                          style: const TextStyle(color: Colors.white),
+                                          widget.movie.map['movie']['year']
+                                              .toString(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         ),
                                         const SizedBox(
                                           width: 5,
@@ -189,7 +216,8 @@ class _MoviePageState extends State<MoviePage> {
                                         ),
                                         Text(
                                           time,
-                                          style: const TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         ),
                                         const SizedBox(
                                           width: 5,
@@ -209,8 +237,9 @@ class _MoviePageState extends State<MoviePage> {
                                           width: 5,
                                         ),
                                         Text(
-                                          janr,
-                                          style: const TextStyle(color: Colors.white),
+                                          genre,
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         ),
                                         const SizedBox(
                                           width: 5,
@@ -241,19 +270,27 @@ class _MoviePageState extends State<MoviePage> {
                                         Row(
                                           children: [
                                             IconButton(
-                                                onPressed: () {},
-                                                icon: const Icon(
-                                                  IconlyLight.download,
-                                                  color: Colors.red,
-                                                  size: 28,
-                                                )),
+                                              onPressed: () => context
+                                                  .read<Downloader>()
+                                                  .downloadFile(
+                                                    widget.movie.map['movie']
+                                                        ['videoUrl'],
+                                                    widget.movie.id,
+                                                  ),
+                                              icon: const Icon(
+                                                IconlyLight.download,
+                                                color: Colors.red,
+                                                size: 28,
+                                              ),
+                                            ),
                                             IconButton(
-                                                onPressed: () {},
-                                                icon: const Icon(
-                                                  Icons.share,
-                                                  color: Colors.red,
-                                                  size: 28,
-                                                )),
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.share,
+                                                color: Colors.red,
+                                                size: 28,
+                                              ),
+                                            ),
                                           ],
                                         )
                                       ],
@@ -265,11 +302,11 @@ class _MoviePageState extends State<MoviePage> {
                                 Column(
                                   children: [
                                     Container(
-                                      padding:
-                                          const EdgeInsets.only(left: 30, right: 15),
+                                      padding: const EdgeInsets.only(
+                                          left: 30, right: 15),
                                       child: Text(
-                                        description,
-                                        maxLines: isreadmore ? 10 : 2,
+                                        widget.movie.map['movie']['title'],
+                                        maxLines: isreadmore ? 8 : 2,
                                         style: const TextStyle(
                                           color: Colors.white,
                                         ),
@@ -300,8 +337,8 @@ class _MoviePageState extends State<MoviePage> {
                         padding: const EdgeInsets.only(right: 15, left: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children:const [
-                             Text(
+                          children: const [
+                            Text(
                               "The Cast",
                               style: TextStyle(
                                   color: Colors.white,

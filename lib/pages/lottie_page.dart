@@ -1,9 +1,8 @@
-import 'dart:async';
-
+import 'package:firedart/auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:movie_streaming_app/pages/home_page.dart';
-import 'package:movie_streaming_app/pages/login_pages/sing%20in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LottiePage extends StatefulWidget {
   static const String id = "lottie_page";
@@ -15,23 +14,39 @@ class LottiePage extends StatefulWidget {
 }
 
 class _LottiePageState extends State<LottiePage> {
+  final auth = FirebaseAuth.instance;
+
+  Future login() async {
+    final prefs = await SharedPreferences.getInstance();
+    String email = prefs.getString("email")!;
+    String password = prefs.getString("password")!;
+    auth.signIn(email, password).then((value) {
+      Navigator.pushReplacementNamed(context, HomePage.id);
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _timer();
+    login();
   }
 
   void _timer() {
-    // 1 second = 1000 millisecond
-    Timer(Duration(milliseconds: 5000),(){
-      Navigator.pushReplacementNamed(context, SignInPage.id);
-    });
+    // // 1 second = 1000 millisecond
+    // Timer(Duration(milliseconds: 5000),(){
+    //   Navigator.pushReplacementNamed(context, SignInPage.id);
+    // });
   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
-        child: Lottie.asset("assets/lotties/movie.json"),
+        child:  Lottie.asset(
+          "assets/lotties/movie.json",
+        ),
       ),
     );
   }

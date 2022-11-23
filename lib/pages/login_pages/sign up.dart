@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously, file_names
 import 'dart:async';
-
+import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
-import 'package:glassmorphism/glassmorphism.dart';
+import 'package:movie_streaming_app/pages/home_page.dart';
 import 'package:movie_streaming_app/pages/login_pages/sing%20in.dart';
+import 'package:movie_streaming_app/screens/loading_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String id = "eoitmgcuqef9043mc3nt5n769bh9h9786hb";
@@ -14,6 +17,12 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final auth = FirebaseAuth.instance;
+  bool isLoad = false;
+
+  ///
+  ///
+  ///
   var namecontrol = TextEditingController();
   var emailcontrol = TextEditingController();
   var passwordcontrol1 = TextEditingController();
@@ -30,9 +39,10 @@ class _SignUpPageState extends State<SignUpPage> {
     "assets/images/img_1.png",
     "assets/images/img_3.png"
   ];
+
   void slideshow() {
     Timer.periodic(const Duration(seconds: 2), (timer) {
-      if (index < images.length-1) {
+      if (index < images.length - 1) {
         setState(() {
           index++;
         });
@@ -43,13 +53,80 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     });
   }
+
+  Future signUp() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: Colors.white24,
+            child: Center(
+              child: Loading.loading(),
+            ),
+          );
+        });
+    final prefs = await SharedPreferences.getInstance();
+    String email = emailcontrol.text.trim();
+    String password = passwordcontrol1.text.trim();
+    try {
+      if (passwordcontrol1.text.trim() != passwordcontrol2.text.trim()) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Password must be at least 6 characters! Try again!'),
+          ),
+        );
+      } else if (!email.contains("@")) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('The email was entered incorrectly. Try again!'),
+          ),
+        );
+      } else if (namecontrol.text.trim().length < 3) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Please enter your name!'),
+          ),
+        );
+      } else {
+        await auth.signUp(email, password).then((value) => {
+              prefs.setString("password", password),
+              prefs.setString("email", email),
+              prefs.setString("name", namecontrol.text.trim()),
+              prefs.setBool("logged", true),
+              setState(() {
+                prefs.setBool("logged", true);
+              }),
+              Navigator.pop(context),
+              Navigator.pushReplacementNamed(context, HomePage.id),
+            });
+      }
+    } catch (e) {
+      {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Error! This email is already registered!'),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     slideshow();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
           decoration: BoxDecoration(
             color: Colors.grey,
             image: DecorationImage(
-              image: AssetImage(
-                images[index]
-              ),
+              image: AssetImage(images[index]),
               fit: BoxFit.cover,
             ),
           ),
@@ -99,24 +174,24 @@ class _SignUpPageState extends State<SignUpPage> {
                 // glass Morphizm Container hieght
                 height: MediaQuery.of(context).size.height * 0.53,
 
-                child: GlassmorphicContainer(
+                child: SizedBox(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.7,
-                  borderRadius: 15,
-                  blur: 4,
-                  // blur xiralik darajasi
-                  alignment: Alignment.center,
-                  border: 0.0,
-                  linearGradient: LinearGradient(
-                    colors: [
-                      const Color(0xffffffff).withOpacity(
-                        0.1,
-                      ),
-                      const Color(0xffffffff).withOpacity(
-                        0.1,
-                      ),
-                    ],
-                  ),
+                  // borderRadius: 15,
+                  // blur: 4,
+                  // // blur xiralik darajasi
+                  // alignment: Alignment.center,
+                  // border: 0.0,
+                  // linearGradient: LinearGradient(
+                  //   colors: [
+                  //     const Color(0xffffffff).withOpacity(
+                  //       0.1,
+                  //     ),
+                  //     const Color(0xffffffff).withOpacity(
+                  //       0.1,
+                  //     ),
+                  //   ],
+                  // ),
                   // borderGradient: LinearGradient(
                   //   colors: [
                   //     const Color(0x00000000).withOpacity(0.3),
@@ -124,9 +199,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   //   ],
                   // ),
                   // sign in UI
-                  borderGradient: const LinearGradient(
-                    colors: [],
-                  ),
+                  // borderGradient: const LinearGradient(
+                  //   colors: [],
+                  // ),
                   child: Column(
                     children: [
                       SizedBox(
@@ -224,11 +299,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                 });
                               },
                               icon: hidetext1
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.visibility_off,
                                       color: Colors.grey,
                                     )
-                                  : Icon(Icons.visibility,color: Colors.grey,),
+                                  : const Icon(
+                                      Icons.visibility,
+                                      color: Colors.grey,
+                                    ),
                             ),
                             hintText: "Password",
                             border: InputBorder.none,
@@ -255,7 +333,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           cursorColor: Colors.red,
                           textAlign: TextAlign.start,
                           controller: passwordcontrol2,
-                          obscureText: hidetext1, //textni yashirish
+                          obscureText: hidetext1,
+                          //textni yashirish
                           style: const TextStyle(
                             fontSize: 17,
                           ),
@@ -297,7 +376,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            signUp();
+                          },
                           child: const Text(
                             "Continue",
                             style: TextStyle(

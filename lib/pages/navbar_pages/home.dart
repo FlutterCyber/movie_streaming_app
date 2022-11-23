@@ -1,6 +1,8 @@
+import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'package:movie_streaming_app/player/player.dart';
+import 'package:movie_streaming_app/screens/loading_widget.dart';
+import 'package:movie_streaming_app/screens/splash_appbar.dart';
 import 'package:movie_streaming_app/scroll_test.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,45 +15,63 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ///
+  ///
   PageController controller = PageController();
   int currentIndex = 0;
   int categoryIndex = 0;
   bool isWorked = false;
-  List<String> images = [
-    "assets/images/img_1.png",
-    "assets/images/img_2.png",
-    "assets/images/img_3.png"
-  ];
-  List<String> movieNames = [
-    "The First Movie Name",
-    "The Second Movie Name",
-    "The Thirst Movie Name"
-  ];
+  List<String> images = [];
+  List<String> movieNames = [];
+  List<Document> movies = [];
 
-  List<String> imagesAnimated = [
-    "assets/images/img_1.png",
-    "assets/images/img_2.png",
-    "assets/images/img_3.png",
-    "assets/images/img_1.png",
-    "assets/images/img_4.png",
-    "assets/images/img_2.png",
-    "assets/images/img_1.png",
-    "assets/images/img_3.png"
-  ];
+  List<Document> action = [];
+  List<Document> drama = [];
+  List<Document> comedy = [];
 
-  List<String> names = [
-    "The First Movie Name",
-    "The Second Movie Name",
-    "The Thirst Movie Name",
-    "The First Movie Name",
-    "The Second Movie Name",
-    "The Thirst Movie Name",
-    "The First Movie Name",
-    "The Second Movie Name",
-  ];
+  CollectionReference allMovies = Firestore.instance.collection('movies');
+
+  Future getMovies() async {
+    final result = await allMovies.orderBy("movie").get();
+    setState(() {
+      movies.addAll(result);
+    });
+    setState(() {
+      images.add(movies[5].map['movie']["imgUrl"]);
+      images.add(movies[1].map['movie']["imgUrl"]);
+      images.add(movies[2].map['movie']["imgUrl"]);
+      movieNames.add(movies[5].map['movie']["name"]);
+      movieNames.add(movies[1].map['movie']["name"]);
+      movieNames.add(movies[2].map['movie']["name"]);
+    });
+    for (int i = 0; i < movies.length; i++) {
+      if (movies[i].map['movie']['isAction']) {
+        setState(() {
+          action.add(movies[i]);
+        });
+      } else if (movies[i].map['movie']['isDrama']) {
+        setState(() {
+          drama.add(movies[i]);
+        });
+      } else if (movies[i].map['movie']['isComedic']) {
+        setState(() {
+          comedy.add(movies[i]);
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMovies();
+  }
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -59,149 +79,41 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         flexibleSpace: categoryRow(),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
-              width: MediaQuery.of(context).size.width,
-              child: Stack(
-                fit: StackFit.expand,
+      body: movies.isEmpty
+          ? Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: const Color(0xff38404b),
+              child: Center(
+                child: Container(
+                  height: width * 0.3,
+                  width: width * 0.3,
+                  margin: const EdgeInsets.all(50),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(width),
+                  ),
+                  child: Loading.loading(),
+                ),
+              ),
+            )
+          : SingleChildScrollView(
+              child: Column(
                 children: [
-                  Image.asset(
-                    images[currentIndex],
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
-                  ),
+                  SplashAppBar(movies: movies),
+                  ScrollTest(movies: action, category: "Action"),
+                  ScrollTest(movies: drama, category: "Drama"),
+                  ScrollTest(movies: comedy, category: "Comedy"),
                   Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          Colors.transparent,
-                          Colors.transparent,
-                          const Color(0xff38404b).withOpacity(0.4),
-                          const Color(0xff38404b).withOpacity(0.6),
-                          const Color(0xff38404b).withOpacity(0.8),
-                          const Color(0xff38404b),
-                          const Color(0xff38404b),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
+                    height: 100,
+                    decoration: const BoxDecoration(
+                      color: Color(0xff38404b),
+                      //color: Colors.red
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(),
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.45,
-                          child: PageView(
-                            controller: controller,
-                            children: [
-                              Container(),
-                              Container(),
-                              Container(),
-                            ],
-                            onPageChanged: (int index) {
-                              setState(() {
-                                currentIndex = index;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                right: 16,
-                                top: 16,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      movieNames[currentIndex],
-                                      style: const TextStyle(
-                                        //textStyle: Theme.of(context).textTheme.headline4,
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                      maxLines: 10,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    // color: Colors.blue,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    child: GestureDetector(
-                                      onTap: () {
-
-                                        setState(() {
-                                          isWorked = !isWorked;
-                                        });
-                                      },
-                                      child: const Icon(
-                                        IconlyBold.play,
-                                        color: Colors.red,
-                                        size: 50,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      indicator(),
-                    ],
-                  ),
+                  )
                 ],
               ),
             ),
-            ScrollTest(
-              images: imagesAnimated,
-              name: "Fantastic",
-              movies: names,
-            ),
-            ScrollTest(
-              images: imagesAnimated,
-              name: "Drama",
-              movies: names,
-            ),
-            ScrollTest(
-              images: imagesAnimated,
-              name: "Cartoons",
-              movies: names,
-            ),
-            Container(
-              height: 200,
-              decoration: const BoxDecoration(
-                color: Color(0xff38404b),
-                //color: Colors.red
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 

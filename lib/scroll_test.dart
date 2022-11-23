@@ -1,212 +1,223 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/pages/movie_page.dart';
+import 'package:movie_streaming_app/screens/favourite.dart';
+import 'package:movie_streaming_app/screens/loading_widget.dart';
+import 'package:movie_streaming_app/screens/see_all_screen.dart';
 
 class ScrollTest extends StatefulWidget {
   const ScrollTest({
     super.key,
-    required this.images,
-    required this.name,
     required this.movies,
+    required this.category,
   });
 
-  final List<String> images;
-  final String name;
-  final List<String> movies;
+  final List<Document> movies;
+  final String category;
 
   @override
   State<ScrollTest> createState() => _ScrollTestState();
 }
 
 class _ScrollTestState extends State<ScrollTest> {
-  FixedExtentScrollController controller =
-      FixedExtentScrollController(initialItem: 3);
-  int currentIndex = 3;
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    controller.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
       color: const Color(0xff38404b),
-      height: height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.48,
       width: width,
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 12,
-              right: 12,
-            ),
-            child: Row(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.name,
+                  widget.category,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => SeeAllScreen(
+                          movies: widget.movies,
+                          name: widget.category,
+                        ),
+                      ),
+                    );
+                  },
                   child: const Text(
                     "See All",
                     style: TextStyle(
                       color: Colors.red,
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 20,
                     ),
                   ),
-                )
+                ),
               ],
             ),
-          ),
-          Center(
-            child: RotatedBox(
-              quarterTurns: 1,
-              child: ListWheelScrollView.useDelegate(
-                controller: controller,
-                itemExtent: 140,
-                physics: const FixedExtentScrollPhysics(),
-                perspective: 0.001,
-                diameterRatio: 1.2,
-                onSelectedItemChanged: (index) {
-                  if (index < widget.images.length && index >= 0) {
-                    setState(() {
-                      currentIndex = index;
-                    });
-                  } else {
-                    controller.animateToItem(
-                      widget.images.length ~/ 2,
-                      duration: const Duration(
-                        seconds: 1,
-                      ),
-                      curve: Curves.linear,
-                    );
-                  }
-                },
-                squeeze: 1.1,
-                offAxisFraction: 0.5,
-                useMagnifier: false,
-                magnification: 1.2,
-                childDelegate: ListWheelChildBuilderDelegate(
-                    builder: (BuildContext context, int index) {
-                  return container(
-                    widget.images[index],
-                    widget.movies[index],
-                  );
-                }),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  container(String img, String food) {
-    return RotatedBox(
-      quarterTurns: 3,
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.3,
-        margin: const EdgeInsets.only(
-          left: 4,
-          right: 4,
-          bottom: 14,
-          top: 14,
-        ),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(img),
-            fit: BoxFit.cover,
-          ),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.4,
-              color: Colors.white.withOpacity(0.0),
-              // height: MediaQuery.of(context).size.height * 0.06,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 5,
-                    sigmaY: 5,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Flexible(
-                        child: Text(
-                          food,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: widget.movies.length > 5 ? 5 : widget.movies.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MoviePage(
+                            movie: widget.movies[index],
                           ),
                         ),
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        left: index == 0 ? 10 : 12.0,
+                        right: index == 4 ? 12 : 0.0,
+                      ),
+                      height: height * 0.43,
+                      width: width * 0.43,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff38404b).withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: CachedNetworkImage(
+                              height: height * 0.43,
+                              width: width * 0.43,
+                              fit: BoxFit.cover,
+                              imageUrl: widget.movies[index].map['movie']
+                                  ['imgUrl'],
+                              placeholder: (context, url) => Loading.loading(),
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.movie,
+                                size: 50,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: SizedBox(
+                              height: height * 0.43,
+                              width: width * 0.43,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            child: BackdropFilter(
+                                              filter: ImageFilter.blur(
+                                                sigmaY: 10,
+                                                sigmaX: 10,
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 4,
+                                                  right: 4,
+                                                  bottom: 2,
+                                                  top: 2,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "${widget.movies[index].map['movie']['rating']} ",
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    const Icon(
+                                                      Icons.star,
+                                                      color: Colors.amber,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Favourite(
+                                          movie: widget.movies[index],
+                                          id: widget.movies[index].id,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.08,
+                                    width: width * 0.43,
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                        bottomLeft: Radius.circular(15),
+                                        bottomRight: Radius.circular(15),
+                                      ),
+                                      child: BackdropFilter(
+                                        filter: ImageFilter.blur(
+                                          sigmaY: 10,
+                                          sigmaX: 10,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 6,
+                                            right: 6,
+                                            top: 4,
+                                            bottom: 4,
+                                          ),
+                                          child: Text(
+                                            widget.movies[index].map['movie']
+                                                ['name'],
+                                            maxLines: 2,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget rating(double rating) {
-    return Container(
-      padding: const EdgeInsets.only(
-        left: 5,
-        right: 5,
-        top: 3,
-        bottom: 3,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
-          bottomRight: Radius.circular(15),
-        ),
-        gradient: LinearGradient(
-          colors: [
-            const Color(0xffffffff).withOpacity(0.3),
-            const Color(0xffffffff).withOpacity(0.3),
-          ],
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const Icon(
-            Icons.star,
-            color: Colors.amber,
-            size: 18,
-          ),
-          Text(
-            " $rating",
-            style: const TextStyle(
-              color: Color(0xff38404b),
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

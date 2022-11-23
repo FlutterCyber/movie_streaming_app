@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:movie_streaming_app/pages/login_pages/start_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Account extends StatefulWidget {
   static const String id = "account";
@@ -18,7 +20,13 @@ TextEditingController passtcontroller = TextEditingController();
 final pickimg = ImagePicker();
 File? _image;
 
-doit() {}
+Future signOut(BuildContext context) async {
+  final prefs = await SharedPreferences.getInstance();
+  prefs.remove("email");
+  prefs.remove("password");
+  prefs.remove("logged");
+  Navigator.pushReplacementNamed(context, StartPage.id);
+}
 
 class _AccountState extends State<Account> {
   // Future getImage() async {
@@ -172,8 +180,21 @@ class _AccountState extends State<Account> {
               SizedBox(
                 height: 8,
               ),
-              buildcontainer("Settings", doit, textcontroller),
-              buildcontainer("Notifications", doit, textcontroller),
+              buildcontainer("Settings", null, textcontroller),
+              buildcontainer("Notifications", null, textcontroller),
+              ListTile(
+                leading: const Icon(
+                  Icons.exit_to_app_sharp,
+                  color: Colors.red,
+                ),
+                title: const Text(
+                  "Sign out",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  signOut(context);
+                },
+              ),
             ],
           )
         ],
@@ -184,7 +205,7 @@ class _AccountState extends State<Account> {
   Widget buildcontainer(
       String str, void doit, TextEditingController controller) {
     return Container(
-      margin: EdgeInsets.only(right: 10, left: 10,bottom: 10,top: 10),
+      margin: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
       padding: EdgeInsets.only(right: 15, left: 20),
       height: 50,
       width: double.infinity,

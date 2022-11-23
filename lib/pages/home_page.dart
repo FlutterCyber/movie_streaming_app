@@ -1,12 +1,10 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:movie_streaming_app/pages/account_page.dart';
 import 'package:movie_streaming_app/pages/account_page2.dart';
 import 'package:movie_streaming_app/pages/download_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
-import 'package:movie_streaming_app/pages/navbar_pages/other_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,7 +29,7 @@ class _HomePageState extends State<HomePage> {
         children: const [
           HomeScreen(),
           DownloadPage(),
-          AccountPage(),
+          PlaylistPage(),
           Account(),
         ],
         onPageChanged: (int index) {
@@ -111,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                     });
                   },
                   child: Icon(
-                    currentIndex == 2 ? IconlyBold.chat : IconlyLight.chat,
+                    currentIndex == 2 ? IconlyBold.heart : IconlyLight.heart,
                     color: currentIndex == 2 ? Colors.white : Colors.grey,
                     size: currentIndex == 2 ? 30 : 28,
                   ),
