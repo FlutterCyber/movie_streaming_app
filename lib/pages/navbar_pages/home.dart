@@ -1,6 +1,13 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firedart/firedart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'package:movie_streaming_app/player/player.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:movie_streaming_app/screens/loading_widget.dart';
+import 'package:movie_streaming_app/screens/splash_appbar.dart';
 import 'package:movie_streaming_app/scroll_test.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,42 +20,57 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  var isDeviceConnected = true;
+  bool isAlert = true;
+
+  @override
+  void initState() {
+    getConnectivity();
+    super.initState();
+  }
+
+  getConnectivity() async{
+    var res= await Connectivity().checkConnectivity();
+    if(res!=ConnectivityResult.mobile && res!= ConnectivityResult.wifi){
+      showDialogBox();
+
+    }
+
+
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
+
+  ///
+  ///
   PageController controller = PageController();
   int currentIndex = 0;
   int categoryIndex = 0;
   bool isWorked = false;
-  List<String> images = [
-    "assets/images/img_1.png",
-    "assets/images/img_2.png",
-    "assets/images/img_3.png"
-  ];
-  List<String> movieNames = [
-    "The First Movie Name",
-    "The Second Movie Name",
-    "The Thirst Movie Name"
-  ];
+  List<String> images = [];
+  List<String> movieNames = [];
+  List<Document> movies = [];
 
-  List<String> imagesAnimated = [
-    "assets/images/img_1.png",
-    "assets/images/img_2.png",
-    "assets/images/img_3.png",
-    "assets/images/img_1.png",
-    "assets/images/img_4.png",
-    "assets/images/img_2.png",
-    "assets/images/img_1.png",
-    "assets/images/img_3.png"
-  ];
+  List<Document> action = [];
+  List<Document> drama = [];
+  List<Document> comedy = [];
 
-  List<String> names = [
-    "The First Movie Name",
-    "The Second Movie Name",
-    "The Thirst Movie Name",
-    "The First Movie Name",
-    "The Second Movie Name",
-    "The Thirst Movie Name",
-    "The First Movie Name",
-    "The Second Movie Name",
-  ];
+  CollectionReference allMovies = Firestore.instance.collection('movies');
+
+  Stream getStData() {
+    return Stream.periodic(const Duration(seconds: 3))
+        .asyncMap((event) => getMovies());
+  }
+
+  Future<List<Document>> getMovies() async {
+    final result = await allMovies.orderBy("movie").get();
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,151 +81,83 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         flexibleSpace: categoryRow(),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
-              width: MediaQuery.of(context).size.width,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.asset(
-                    images[currentIndex],
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
+      body: StreamBuilder<dynamic>(
+        stream: getStData(),
+        builder: (
+          BuildContext context,
+          snapshot,
+        ) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Scaffold(
+              backgroundColor: const Color(0xff38404b),
+              body: Center(
+                child: Container(
+                  height: 80,
+                  width: 80,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(200),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          Colors.transparent,
-                          Colors.transparent,
-                          const Color(0xff38404b).withOpacity(0.4),
-                          const Color(0xff38404b).withOpacity(0.6),
-                          const Color(0xff38404b).withOpacity(0.8),
-                          const Color(0xff38404b),
-                          const Color(0xff38404b),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(),
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.45,
-                          child: PageView(
-                            controller: controller,
-                            children: [
-                              Container(),
-                              Container(),
-                              Container(),
-                            ],
-                            onPageChanged: (int index) {
-                              setState(() {
-                                currentIndex = index;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                right: 16,
-                                top: 16,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      movieNames[currentIndex],
-                                      style: const TextStyle(
-                                        //textStyle: Theme.of(context).textTheme.headline4,
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                      maxLines: 10,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    // color: Colors.blue,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    child: GestureDetector(
-                                      onTap: () {
-
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Player(vd_url: ""),
-                                          ),
-                                        );
-                                      },
-                                      child: const Icon(
-                                        IconlyBold.play,
-                                        color: Colors.red,
-                                        size: 50,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      indicator(),
-                    ],
-                  ),
-                ],
+                  child: Loading.loading(),
+                ),
               ),
-            ),
-            ScrollTest(
-              images: imagesAnimated,
-              name: "Fantastic",
-              movies: names,
-            ),
-            ScrollTest(
-              images: imagesAnimated,
-              name: "Drama",
-              movies: names,
-            ),
-            ScrollTest(
-              images: imagesAnimated,
-              name: "Cartoons",
-              movies: names,
-            ),
-            Container(
-              height: 200,
-              decoration: const BoxDecoration(
-                color: Color(0xff38404b),
-                //color: Colors.red
-              ),
-            )
-          ],
-        ),
+            );
+          } else if (snapshot.connectionState == ConnectionState.active ||
+              snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return const Center(
+                child: Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: 50,
+                ),
+              );
+            } else if (snapshot.hasData) {
+              movies.addAll(snapshot.data);
+              images.add(movies[5].map['movie']["imgUrl"]);
+              images.add(movies[1].map['movie']["imgUrl"]);
+              images.add(movies[2].map['movie']["imgUrl"]);
+              movieNames.add(movies[5].map['movie']["name"]);
+              movieNames.add(movies[1].map['movie']["name"]);
+              movieNames.add(movies[2].map['movie']["name"]);
+              for (int i = 0; i < movies.length; i++) {
+                if (movies[i].map['movie']['isAction']) {
+                  action.add(movies[i]);
+                } else if (movies[i].map['movie']['isDrama']) {
+                  drama.add(movies[i]);
+                } else if (movies[i].map['movie']['isComedic']) {
+                  comedy.add(movies[i]);
+                }
+              }
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SplashAppBar(movies: movies),
+                    ScrollTest(movies: action, category: "Action"),
+                    ScrollTest(movies: drama, category: "Drama"),
+                    ScrollTest(movies: comedy, category: "Comedy"),
+                    Container(
+                      height: 100,
+                      decoration: const BoxDecoration(
+                        color: Color(0xff38404b),
+                        //color: Colors.red
+                      ),
+                    )
+                  ],
+                ),
+              );
+            } else {
+              return const Center(
+                child: Text(
+                  "Opps. Movies not found! ",
+                ),
+              );
+            }
+          } else {
+            return Text('State: ${snapshot.connectionState}');
+          }
+        },
       ),
     );
   }
@@ -395,4 +349,29 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  showDialogBox() => showCupertinoDialog<String>(
+
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+
+          title: const Text('No Connection'),
+          content: const Text('Please check your internet connectivity'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context, 'Cancel');
+                setState(() => isAlert = false);
+                isDeviceConnected =
+                    await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected && isAlert == false) {
+                  showDialogBox();
+                  setState(() => isAlert = true);
+                }
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
 }

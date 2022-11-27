@@ -5,9 +5,9 @@ import 'package:movie_streaming_app/pages/home_page.dart';
 import 'package:movie_streaming_app/pages/login_pages/sign%20up.dart';
 import 'package:movie_streaming_app/pages/login_pages/sing%20in.dart';
 import 'package:movie_streaming_app/pages/login_pages/start_page.dart';
-import 'package:movie_streaming_app/pages/movie_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
+import 'package:movie_streaming_app/scroll_test.dart';
 
 void main() {
   Firestore.initialize(projectID);
@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const HomeScreen(),
+      home: const HomePage(),
       routes: {
-        MoviePage.id: (context) => const MoviePage(),
+      //  MoviePage.id: (context) => const MoviePage(),
         StartPage.id: (context) => const StartPage(),
         HomePage.id: (context) => const HomePage(),
         HomeScreen.id: (context) => const HomeScreen(),
@@ -37,6 +37,17 @@ class MyApp extends StatelessWidget {
         SignUpPage.id: (context) => const SignUpPage(),
         DownloadPage.id: (context) => const DownloadPage(),
       },
+    );
+  }
+}
+class ScrollWidget extends StatelessWidget {
+  const ScrollWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      //body: const ScrollTest(name: 'Name',),
     );
   }
 }
