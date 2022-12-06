@@ -1,25 +1,20 @@
-import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:movie_streaming_app/for%20test/flowder_test.dart';
-import 'package:movie_streaming_app/providers/download_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 
-class DownloadPage extends StatefulWidget {
-  static const String id = "s34c5t9342";
-
-  const DownloadPage({Key? key}) : super(key: key);
+class DownloadingWidget extends StatefulWidget {
+  const DownloadingWidget({Key? key}) : super(key: key);
 
   @override
-  State<DownloadPage> createState() => _DownloadPageState();
+  State<DownloadingWidget> createState() => _DownloadingWidgetState();
 }
 
-class _DownloadPageState extends State<DownloadPage> {
+class _DownloadingWidgetState extends State<DownloadingWidget> {
   final Dio dio = Dio();
   bool loading = false;
   double progress = 0;
@@ -42,7 +37,7 @@ class _DownloadPageState extends State<DownloadPage> {
               break;
             }
           }
-          newPath = "$newPath/WatchMe";
+          newPath = "$newPath/.WatchMe";
           directory = Directory(newPath);
         } else {
           return false;
@@ -94,73 +89,27 @@ class _DownloadPageState extends State<DownloadPage> {
     return false;
   }
 
-  downloadFile() async {
-    setState(() {
-      loading = true;
-      progress = 0;
-    });
-    bool downloaded = await saveVideo(
-        "https://firebasestorage.googleapis.com/v0/b/watch-me-3c437.appspot.com/o/movie%201%2FAlec%20Benjamin%20-%20Let%20Me%20Down%20Slowly%20%5BOfficial%20Music%20Video%5D.mp4?alt=media&token=72ec9848-7e98-4df8-aa79-4cbd900e5308",
-        "video.mp4");
+  downloadFile(String url, String id) async {
+    String? format;
+    List<String> formats = url.split(".mp4");
+    if (formats.length == 1) {
+      format = ".mkv";
+    } else {
+      format = ".mp4";
+    }
+    loading = true;
+    progress = 0;
+    bool downloaded = await saveVideo(url, id + format);
     if (downloaded) {
       log("File Downloaded");
     } else {
       log("Problem Downloading File");
     }
-    setState(() {
-      loading = false;
-    });
-  }
-
-  /// final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //
-  //   // Encode and store data in SharedPreferences
-  //   final String encodedData = Music.encode([
-  //     Music(id: 1, ...),
-  //     Music(id: 2, ...),
-  //     Music(id: 3, ...),
-  //   ]);
-  //
-  //   await prefs.setString('musics_key', encodedData);
-  //
-  //   // Fetch and decode data
-  //   final String musicsString = await prefs.getString('musics_key');
-  //
-  //   final List<Music> musics = Music.decode(musicsString);
-  String prg = "0";
-
-  void setSt() {
-    final prog = Provider.of<Downloader>(context, listen: false).prg.toString();
-    Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      setState(() {
-        prg = prog;
-      });
-    });
+    loading = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return const DownFlowTest();
-    // return Scaffold(
-    //   backgroundColor: const Color(0xff38404b).withOpacity(0.5),
-    //   appBar: AppBar(
-    //     title: const Text("Downloads"),
-    //     centerTitle: true,
-    //     backgroundColor: const Color(0xff38404b),
-    //   ),
-    //   body: CustomScrollView(
-    //     slivers: [
-    //
-    //     ],
-    //   )
-    // );
+    return Container();
   }
-
-
-
-
-
-
-
-
 }
