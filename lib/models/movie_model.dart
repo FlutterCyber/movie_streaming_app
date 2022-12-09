@@ -7,6 +7,7 @@ class MovieModel {
   double rating;
   String title;
   String imgUrl;
+  String videoUrl;
   String path;
 
   MovieModel({
@@ -16,6 +17,7 @@ class MovieModel {
     required this.rating,
     required this.title,
     required this.imgUrl,
+    required this.videoUrl,
     required this.path,
   });
 
@@ -26,6 +28,7 @@ class MovieModel {
         rating = json['rating'],
         title = json['title'],
         imgUrl = json['imgUrl'],
+        videoUrl = json['videoUrl'],
         path = json['path'];
 
   static toMap(MovieModel movie) => {
@@ -35,6 +38,7 @@ class MovieModel {
         "rating": movie.rating,
         "title": movie.title,
         "imgUrl": movie.imgUrl,
+        "videoUrl": movie.videoUrl,
         "path": movie.path,
       };
 

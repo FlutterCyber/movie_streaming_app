@@ -1,6 +1,7 @@
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:movie_streaming_app/models/movie_model.dart';
 import 'package:movie_streaming_app/player/player.dart';
 import 'package:movie_streaming_app/providers/download_provider.dart';
 import 'package:provider/provider.dart';
@@ -270,13 +271,58 @@ class _MoviePageState extends State<MoviePage> {
                                         Row(
                                           children: [
                                             IconButton(
-                                              onPressed: () => context
-                                                  .read<Downloader>()
-                                                  .downloadFile(
-                                                    widget.movie.map['movie']
-                                                        ['videoUrl'],
-                                                    widget.movie.id,
+                                              onPressed: () {
+                                                context
+                                                    .read<Downloader>()
+                                                    .addToDownloading(
+                                                      MovieModel(
+                                                        id: widget.movie.id,
+                                                        name: widget.movie
+                                                                .map['movie']
+                                                            ['name'],
+                                                        year: widget.movie
+                                                                .map['movie']
+                                                            ['year'],
+                                                        rating: widget.movie
+                                                                .map['movie']
+                                                            ['rating'],
+                                                        title: widget.movie
+                                                                .map['movie']
+                                                            ['title'],
+                                                        imgUrl: widget.movie
+                                                                .map['movie']
+                                                            ['imgUrl'],
+                                                        path: "",
+                                                        videoUrl: widget.movie
+                                                                .map['movie']
+                                                            ['videoUrl'],
+                                                      ),
+                                                    );
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    content: Row(
+                                                      children: const [
+                                                        Text(
+                                                          "Movie added to downloads",
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        Icon(
+                                                          Icons
+                                                              .cloud_done_outlined,
+                                                          color: Colors.white,
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
+                                                );
+                                              },
                                               icon: const Icon(
                                                 IconlyLight.download,
                                                 color: Colors.red,
@@ -318,9 +364,9 @@ class _MoviePageState extends State<MoviePage> {
                                           isreadmore = !isreadmore;
                                         });
                                       },
-                                      child: Text(isreadmore
-                                          ? "Read Less"
-                                          : "Read More"),
+                                      child: Text(
+                                        isreadmore ? "Read Less" : "Read More",
+                                      ),
                                     ),
                                   ],
                                 ),
