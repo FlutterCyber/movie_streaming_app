@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movie_streaming_app/models/download_model.dart';
-import 'package:movie_streaming_app/screens/downloading.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/download_provider.dart';
 
 class DownloadPage extends StatefulWidget {
   static const String id = "s34c5t9342";
@@ -27,20 +22,10 @@ class _DownloadPageState extends State<DownloadPage> {
       body: CustomScrollView(
         slivers: [
           SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                var movie =
-                    context.watch<Downloader>().downloadingMovies[index];
-                return DownloadingWidget(
-                  name: movie.name,
-                  id: movie.id,
-                  url: movie.videoUrl,
-                  imgUrl: movie.imgUrl,
-                  index: index,
-                );
-              },
-              childCount: context.watch<Downloader>().downloadingMovies.length,
-            ),
+            delegate:
+                SliverChildBuilderDelegate((BuildContext context, int index) {
+              return null;
+            }, childCount: 10),
           ),
           const SliverToBoxAdapter(
             child: SizedBox(

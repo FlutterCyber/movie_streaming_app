@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'package:movie_streaming_app/pages/account_page.dart';
+import 'package:movie_streaming_app/pages/navbar_pages/account_page.dart';
 import 'package:movie_streaming_app/pages/download_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';

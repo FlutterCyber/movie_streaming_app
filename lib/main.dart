@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:movie_streaming_app/pages/download_page.dart';
 import 'package:movie_streaming_app/pages/home_page.dart';
 import 'package:movie_streaming_app/pages/login_pages/sign%20up.dart';
@@ -9,8 +10,6 @@ import 'package:movie_streaming_app/pages/login_pages/start_page.dart';
 import 'package:movie_streaming_app/pages/lottie_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
-import 'package:movie_streaming_app/providers/download_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // apiKey: "AIzaSyCm8YgKr81h1y7O5JtVo1a1CogERPxdjyE",
@@ -19,17 +18,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 // storageBucket: "watch-me-3c437.appspot.com",
 // messagingSenderId: "572110715614",
 // appId: "1:572110715614:web:71cfb9023700ef64a1e04f"
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   FirebaseAuth.initialize(apiKey, VolatileStore());
   Firestore.initialize(projectID);
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => Downloader(), lazy: false,),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  await FlutterDownloader.initialize(debug: true );
+  runApp(const MyApp());
 }
 
 const apiKey = "AIzaSyCm8YgKr81h1y7O5JtVo1a1CogERPxdjyE";
