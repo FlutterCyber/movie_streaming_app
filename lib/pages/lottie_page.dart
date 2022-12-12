@@ -32,19 +32,12 @@ class _LottiePageState extends State<LottiePage> {
     login();
   }
 
-  void _timer() {
-    // // 1 second = 1000 millisecond
-    // Timer(Duration(milliseconds: 5000),(){
-    //   Navigator.pushReplacementNamed(context, SignInPage.id);
-    // });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child:  Lottie.asset(
+        child: Lottie.asset(
           "assets/lotties/movie.json",
         ),
       ),

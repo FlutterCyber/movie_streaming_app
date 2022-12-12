@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:movie_streaming_app/screens/loading_widget.dart';
 import 'package:movie_streaming_app/screens/splash_appbar.dart';
-import 'package:movie_streaming_app/scroll_test.dart';
+import 'package:movie_streaming_app/screens/movie_reels.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = "jodfiejdf";

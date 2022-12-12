@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
-import 'package:glassmorphism/glassmorphism.dart';
 import 'package:movie_streaming_app/pages/home_page.dart';
-import 'package:movie_streaming_app/pages/login_pages/sign%20up.dart';
+import 'package:movie_streaming_app/pages/login_pages/sign_up.dart';
 import 'package:movie_streaming_app/screens/loading_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

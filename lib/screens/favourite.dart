@@ -79,13 +79,13 @@ class _FavouriteState extends State<Favourite> {
               padding: const EdgeInsets.all(2),
               child: isLiked
                   ? const Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                    )
+                Icons.favorite,
+                color: Colors.red,
+              )
                   : const Icon(
-                      Icons.favorite_border,
-                      color: Colors.red,
-                    ),
+                Icons.favorite_border,
+                color: Colors.red,
+              ),
             ),
           ),
         ),

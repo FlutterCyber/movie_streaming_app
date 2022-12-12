@@ -1,11 +1,10 @@
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
-import 'package:movie_streaming_app/pages/login_pages/sign%20up.dart';
-import 'package:movie_streaming_app/pages/login_pages/sing%20in.dart';
+import 'package:movie_streaming_app/pages/login_pages/sign_up.dart';
+import 'package:movie_streaming_app/pages/login_pages/sing_in.dart';
 
 class StartPage extends StatefulWidget {
   static const String id = "StartPage";
@@ -86,7 +85,7 @@ class _StartPageState extends State<StartPage> {
             children: [
               ///arrow container
               Container(
-                padding:const  EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white38, width: 2),
                     borderRadius: BorderRadius.circular(30)),
