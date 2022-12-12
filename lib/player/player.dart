@@ -19,7 +19,14 @@ class _PlayerState extends State<Player> {
     controller = PodPlayerController(
       playVideoFrom: PlayVideoFrom.network(widget.vd_url),
     )..initialise();
+
     super.initState();
+  }
+  @override
+  void dispose() {
+    controller.dispose();
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
