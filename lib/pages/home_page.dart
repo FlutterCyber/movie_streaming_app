@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         children: const [
           HomeScreen(),
           DownloadPage(),
-          PlaylistPage(),
+          Account(),
           DownVideoPage(),
         ],
         onPageChanged: (int index) {

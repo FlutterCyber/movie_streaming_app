@@ -5,7 +5,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-const url =
+const urlVideo =
     "https://firebasestorage.googleapis.com/v0/b/shahbozpandacham.appspot.com/o/videoplayback.mp4?alt=media&token=00710338-cb92-4ddb-9208-9bcf35a7b181";
 
 class DownVideoPage extends StatefulWidget {
@@ -25,7 +25,7 @@ class _DownVideoPageState extends State<DownVideoPage> {
     if (status.isGranted) {
       final baseStorage = await getExternalStorageDirectory();
       await FlutterDownloader.enqueue(
-        url: url,
+        url: urlVideo,
         savedDir: baseStorage!.path,
         showNotification: true,
         openFileFromNotification: true,

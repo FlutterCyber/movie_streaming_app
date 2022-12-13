@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/providers/download_provider.dart';
+import 'package:provider/provider.dart';
+
+import '../../screens/download_item_screen.dart';
 
 class DownloadPage extends StatefulWidget {
   static const String id = "s34c5t9342";
@@ -13,7 +17,7 @@ class _DownloadPageState extends State<DownloadPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff38404b).withOpacity(0.5),
+      backgroundColor: const Color(0xff38404b).withOpacity(0.8),
       appBar: AppBar(
         title: const Text("Downloads"),
         centerTitle: true,
@@ -22,10 +26,14 @@ class _DownloadPageState extends State<DownloadPage> {
       body: CustomScrollView(
         slivers: [
           SliverList(
-            delegate:
-                SliverChildBuilderDelegate((BuildContext context, int index) {
-              return null;
-            }, childCount: 10),
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return DownloadItemScreen(
+                  movie: context.watch<Downloader>().movies[index],
+                );
+              },
+              childCount: context.watch<Downloader>().movies.length,
+            ),
           ),
           const SliverToBoxAdapter(
             child: SizedBox(

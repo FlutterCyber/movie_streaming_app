@@ -1,7 +1,11 @@
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:movie_streaming_app/models/movie_model.dart';
 import 'package:movie_streaming_app/player/player.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/download_provider.dart';
 
 class MoviePage extends StatefulWidget {
   static const String id = "page";
@@ -24,7 +28,10 @@ class _MoviePageState extends State<MoviePage> {
 
   @override
   Widget build(BuildContext context) {
-    double _height = MediaQuery.of(context).size.height;
+    double _height = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     String genre = '';
 
@@ -58,7 +65,10 @@ class _MoviePageState extends State<MoviePage> {
                 children: [
                   SizedBox(
                     height: isreadmore ? _height : _height * 0.85,
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
@@ -91,7 +101,10 @@ class _MoviePageState extends State<MoviePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.15,
+                              height: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height * 0.15,
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -104,15 +117,16 @@ class _MoviePageState extends State<MoviePage> {
                                       child: GestureDetector(
                                         onTap: () {
                                           setState(
-                                            () {
+                                                () {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => Player(
-                                                    vd_url: widget
+                                                  builder: (context) =>
+                                                      Player(
+                                                        vd_url: widget
                                                             .movie.map['movie']
                                                         ['videoUrl'],
-                                                  ),
+                                                      ),
                                                 ),
                                               );
                                             },
@@ -129,7 +143,10 @@ class _MoviePageState extends State<MoviePage> {
                                 ),
                                 SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.2,
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height * 0.2,
                                 ),
                                 /////name movie
                                 Padding(
@@ -137,7 +154,7 @@ class _MoviePageState extends State<MoviePage> {
                                       left: 15, right: 15),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceAround,
                                     children: [
                                       Flexible(
                                         child: Text(
@@ -158,7 +175,7 @@ class _MoviePageState extends State<MoviePage> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    CrossAxisAlignment.center,
                                     children: [
                                       const Icon(
                                         IconlyBold.star,
@@ -166,7 +183,8 @@ class _MoviePageState extends State<MoviePage> {
                                         size: 20,
                                       ),
                                       Text(
-                                          " ${widget.movie.map['movie']['rating']}")
+                                          " ${widget.movie
+                                              .map['movie']['rating']}")
                                     ],
                                   ),
                                 ),
@@ -174,13 +192,16 @@ class _MoviePageState extends State<MoviePage> {
                                 /////data of the movie
                                 SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.07,
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height * 0.07,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         left: 30, right: 15),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       children: [
                                         const Icon(
                                           IconlyBold.calendar,
@@ -250,13 +271,16 @@ class _MoviePageState extends State<MoviePage> {
                                 /////// story line
                                 SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.1,
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height * 0.1,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         left: 30, right: 15),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text(
                                           "Story Line",
@@ -268,7 +292,42 @@ class _MoviePageState extends State<MoviePage> {
                                         Row(
                                           children: [
                                             IconButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                MovieModel movie = MovieModel(
+                                                    id: widget.movie.id,
+                                                    name: widget.movie
+                                                        .map['movie']['name'],
+                                                    year: widget.movie
+                                                        .map['movie']['year'],
+                                                    rating: widget.movie
+                                                        .map['movie']['rating'],
+                                                    title: widget.movie
+                                                        .map['movie']['title'],
+                                                    imgUrl: widget.movie
+                                                        .map['movie']['imgUrl'],
+                                                    videoUrl:
+                                                    widget.movie.map['movie']
+                                                    ['videoUrl'],
+                                                    path: "");
+                                                context
+                                                    .read<Downloader>()
+                                                    .addMovie(movie);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    backgroundColor: Colors
+                                                        .green,
+                                                    content: Text(
+                                                      'Movie successfully added to downloads',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                        FontWeight.w900,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
                                               icon: const Icon(
                                                 IconlyLight.download,
                                                 color: Colors.red,

@@ -10,6 +10,8 @@ import 'package:movie_streaming_app/pages/home_page.dart';
 import 'package:movie_streaming_app/pages/login_pages/start_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
+import 'package:movie_streaming_app/providers/download_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -17,7 +19,16 @@ void main() async {
   FirebaseAuth.initialize(apiKey, VolatileStore());
   Firestore.initialize(projectID);
   await FlutterDownloader.initialize(debug: true);
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Downloader(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 const apiKey = "AIzaSyCm8YgKr81h1y7O5JtVo1a1CogERPxdjyE";
@@ -29,7 +40,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'WatchMe Demo',
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
