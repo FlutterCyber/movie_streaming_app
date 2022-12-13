@@ -22,9 +22,10 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff38404b),
+      backgroundColor: const Color(0xff38404b).withOpacity(0.8),
       appBar: AppBar(
         title: Text(widget.name),
+        backgroundColor: const Color(0xff38404b),
       ),
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
@@ -36,7 +37,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
               bottom: index == widget.movies.length - 1 ? 100.0 : 0.0,
             ),
             decoration: BoxDecoration(
-              color: Colors.red,
+              color:  const Color(0xff38404b),
               borderRadius: BorderRadius.circular(10),
             ),
             width: double.infinity,
@@ -75,7 +76,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
                       const SizedBox(width: 8),
                       SizedBox(
                         width: MediaQuery.of(context).size.width -
-                            MediaQuery.of(context).size.height * 0.23,
+                            MediaQuery.of(context).size.height * 0.24,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -85,7 +86,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -181,7 +182,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
             ),
           );
         },
-        itemCount: widget.movies.length < 20 ? widget.movies.length : 20,
+        itemCount: widget.movies.length
       ),
     );
   }

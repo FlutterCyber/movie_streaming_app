@@ -6,6 +6,8 @@ import 'package:movie_streaming_app/pages/navbar_pages/download_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
 
+import '../for test/download_video.dart';
+
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
 
@@ -29,7 +31,7 @@ class _HomePageState extends State<HomePage> {
           HomeScreen(),
           DownloadPage(),
           PlaylistPage(),
-          Account(),
+          DownVideoPage(),
         ],
         onPageChanged: (int index) {
           setState(() {

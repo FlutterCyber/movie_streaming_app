@@ -53,15 +53,29 @@ class _FavouriteState extends State<Favourite> {
         if (isLiked) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              backgroundColor: Colors.red,
-              content: Text('Movie successfully added your favorites!'),
+              backgroundColor: Colors.green,
+              content: Text(
+                'Movie successfully added your favorites!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: Colors.red,
-              content: Text('Movie successfully deleted your favorites!'),
+              content: Text(
+                'Movie successfully deleted your favorites!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           );
         }
@@ -79,13 +93,13 @@ class _FavouriteState extends State<Favourite> {
               padding: const EdgeInsets.all(2),
               child: isLiked
                   ? const Icon(
-                Icons.favorite,
-                color: Colors.red,
-              )
+                      Icons.favorite,
+                      color: Colors.red,
+                    )
                   : const Icon(
-                Icons.favorite_border,
-                color: Colors.red,
-              ),
+                      Icons.favorite_border,
+                      color: Colors.red,
+                    ),
             ),
           ),
         ),

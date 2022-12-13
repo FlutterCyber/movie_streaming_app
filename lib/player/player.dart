@@ -15,6 +15,7 @@ class Player extends StatefulWidget {
 class _PlayerState extends State<Player> {
   late final PodPlayerController controller;
 
+  @override
   void initState() {
     controller = PodPlayerController(
       playVideoFrom: PlayVideoFrom.network(widget.vd_url),
