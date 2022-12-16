@@ -7,6 +7,7 @@ import 'dart:math' as math;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_streaming_app/models/movie_model.dart';
+import 'package:movie_streaming_app/services/preferences_services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -76,6 +77,17 @@ class DownloadManager with ChangeNotifier {
       _movieProgress[movie.id]?.add(count / total);
       log('Download in progress: ${movie.name}: ${count * 1.0 / total}');
       if (count + 1 >= total) {
+        MovieModel saveMov = MovieModel(
+          id: movie.id,
+          name: movie.name,
+          year: movie.year,
+          rating: movie.rating,
+          title: movie.title,
+          imgUrl: movie.imgUrl,
+          videoUrl: movie.videoUrl,
+          path: movieFile.path,
+        );
+        Preference.saveMovie(saveMov);
         _movieProgress[movie.id]?.close();
         _movieProgress.remove(movie.id);
         _downloadingMovies.remove(movie);

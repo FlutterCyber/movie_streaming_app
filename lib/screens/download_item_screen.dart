@@ -4,18 +4,13 @@ import 'package:movie_streaming_app/models/movie_model.dart';
 import 'package:movie_streaming_app/providers/download_manager.dart';
 import 'package:movie_streaming_app/screens/loading_widget.dart';
 
-class DownloadItemScreen extends StatefulWidget {
+class DownloadItemScreen extends StatelessWidget {
   const DownloadItemScreen({
     required this.movie,
     Key? key,
   }) : super(key: key);
   final MovieModel movie;
 
-  @override
-  State<DownloadItemScreen> createState() => _DownloadItemScreenState();
-}
-
-class _DownloadItemScreenState extends State<DownloadItemScreen> {
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -47,7 +42,7 @@ class _DownloadItemScreenState extends State<DownloadItemScreen> {
               borderRadius: BorderRadius.circular(8),
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
-                imageUrl: widget.movie.imgUrl,
+                imageUrl: movie.imgUrl,
                 placeholder: (context, url) => Loading.loading(),
                 errorWidget: (context, url, error) => const Icon(
                   Icons.movie,
@@ -63,7 +58,7 @@ class _DownloadItemScreenState extends State<DownloadItemScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.movie.name,
+                  movie.name,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -71,7 +66,7 @@ class _DownloadItemScreenState extends State<DownloadItemScreen> {
                 ),
                 StreamBuilder<double>(
                   stream: DownloadManager.instance
-                      .getMovieDownloadProgress(widget.movie),
+                      .getMovieDownloadProgress(movie),
                   builder: (context, snapshot) {
                     double? progress = snapshot.data;
                     return Row(
@@ -85,7 +80,7 @@ class _DownloadItemScreenState extends State<DownloadItemScreen> {
                           ),
                         ),
                         SizedBox(
-                          width: w - h * 0.3,
+                          width: w - h * 0.31,
                           child: LinearProgressIndicator(
                             backgroundColor: Colors.grey,
                             color: Colors.red,
@@ -98,7 +93,7 @@ class _DownloadItemScreenState extends State<DownloadItemScreen> {
                           child: const Icon(Icons.close, color: Colors.grey),
                           onTap: () {
                             DownloadManager.instance
-                                .cancelDownloading(widget.movie);
+                                .cancelDownloading(movie);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Colors.red,
