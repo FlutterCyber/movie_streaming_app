@@ -1,7 +1,6 @@
-import 'dart:io';
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:movie_streaming_app/pages/login_pages/start_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,12 +12,6 @@ class Account extends StatefulWidget {
   @override
   State<Account> createState() => _AccountState();
 }
-
-TextEditingController textcontroller = TextEditingController();
-TextEditingController logcontroller = TextEditingController();
-TextEditingController passtcontroller = TextEditingController();
-final pickimg = ImagePicker();
-File? _image;
 
 Future signOut(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
@@ -180,8 +173,6 @@ class _AccountState extends State<Account> {
               const SizedBox(
                 height: 8,
               ),
-              buildcontainer("Settings", null, textcontroller),
-              buildcontainer("Notifications", null, textcontroller),
               ListTile(
                 leading: const Icon(
                   Icons.exit_to_app_sharp,
