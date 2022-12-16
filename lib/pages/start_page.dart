@@ -195,9 +195,7 @@ class _PageViewWidgetState extends State<PageViewWidget> {
   final String _textdata = "Lorem Ipsum,Lorem Ipsum";
 
   final List _list = [
-    "assets/images/start1.jpg",
-    "assets/images/start2.jpg",
-    "assets/images/start3.jpg",
+
   ];
   List nameofmov = ["House of Cards", "Peaky Blinders", "Red Notice"];
 

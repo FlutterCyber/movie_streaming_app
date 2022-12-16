@@ -22,13 +22,9 @@ class _SignInPageState extends State<SignInPage> {
   int index = 0;
   List<String> images = [
     "assets/images/img_1.png",
-    "assets/images/img_2.png",
+    "assets/images/img.png",
     "assets/images/img_3.png",
-    "assets/images/img_1.png",
-    "assets/images/img_4.png",
     "assets/images/img_2.png",
-    "assets/images/img_1.png",
-    "assets/images/img_3.png"
   ];
 
   void slideshow() {

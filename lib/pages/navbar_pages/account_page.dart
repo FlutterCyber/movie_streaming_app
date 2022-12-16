@@ -1,12 +1,12 @@
-import 'dart:io';
+import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:movie_streaming_app/pages/login_pages/start_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Account extends StatefulWidget {
-  static const String id = "account";
+  static const String id = "account_id";
 
   const Account({Key? key}) : super(key: key);
 
@@ -14,245 +14,155 @@ class Account extends StatefulWidget {
   State<Account> createState() => _AccountState();
 }
 
-TextEditingController textcontroller = TextEditingController();
-TextEditingController logcontroller = TextEditingController();
-TextEditingController passtcontroller = TextEditingController();
-final pickimg = ImagePicker();
-File? _image;
-
-Future signOut(BuildContext context) async {
-  final prefs = await SharedPreferences.getInstance();
-  prefs.remove("email");
-  prefs.remove("password");
-  prefs.remove("logged");
-  Navigator.pushReplacementNamed(context, StartPage.id);
-}
-
 class _AccountState extends State<Account> {
-  // Future getImage() async {
-  //   final pickedFile = await pickimg.pickImage(source: ImageSource.gallery);
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       _image = File(pickedFile.path);
-  //     } else {
-  //       print("No image selected");
-  //     }
-  //   });
-  // }
-  //
-  // Future getImageCamera() async {
-  //   final pickedFile = await pickimg.pickImage(source: ImageSource.camera);
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       _image = File(pickedFile.path);
-  //     } else {
-  //       print("No image selected");
-  //     }
-  //   });
-  // }
-  // void select(BuildContext context) => showDialog(
-  //   context: context,
-  //   builder: (BuildContext context) {
-  //     return SimpleDialog(
-  //       title: Text("Choose"),
-  //       children: <Widget>[
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           children: [
-  //             SimpleDialogOption(
-  //               onPressed: () {
-  //                 getImage();
-  //                 Navigator.pushReplacementNamed(context, Account.id);
-  //               },
-  //               child: Column(
-  //                 children: [
-  //                   Icon(
-  //                     Icons.image,
-  //                     size: 25,
-  //                   ),
-  //                   SizedBox(
-  //                     height: 15,
-  //                   ),
-  //                   Text("Galery", style: TextStyle(fontSize: 18)),
-  //                 ],
-  //               ),
-  //             ),
-  //             SizedBox(
-  //               width: 20,
-  //             ),
-  //             SimpleDialogOption(
-  //               onPressed: () {
-  //                 getImageCamera();
-  //                 Navigator.pushReplacementNamed(context, Account.id);
-  //               },
-  //               child: Column(
-  //                 children: [
-  //                   Icon(
-  //                     Icons.camera_alt,
-  //                     size: 25,
-  //                   ),
-  //                   SizedBox(
-  //                     height: 15,
-  //                   ),
-  //                   Text("Camera", style: TextStyle(fontSize: 18)),
-  //                 ],
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     );
-  //   },
-  // );
+  String name = "";
+  String mail = "";
+
+  Future<void> userName() async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      String? tempName = prefs.getString('name');
+      String? tempMail = prefs.getString('email');
+      setState(() {
+        name = tempName!;
+        mail = tempMail!;
+      });
+    } catch (e) {
+      log("$e");
+    }
+  }
+
+  Future signOut(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove("email");
+    prefs.remove("password");
+    prefs.remove("logged");
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacementNamed(context, StartPage.id);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userName();
+  }
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            color: Colors.black,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 120),
-            height: double.infinity,
-            decoration: const BoxDecoration(
-              color: Colors.white10,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(50),
-                topRight: Radius.circular(50),
+      body: Container(
+        height: height,
+        width: width,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(
+                "assets/images/background.jpg",
               ),
+              fit: BoxFit.cover),
+        ),
+        child: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 20,
+              sigmaY: 20,
             ),
-            child: SingleChildScrollView(
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(30),
-                child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Column(
-            children: [
-              GestureDetector(
-                /// avatar photo
-                child: Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 60, bottom: 10),
-                    height: 100,
-                    width: 90,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.person,
-                        size: 50,
-                        color: Colors.black,
-                      ),
+            child: SizedBox(
+              height: height,
+              width: width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: height * 0.2,
+                    width: height * 0.2,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(height * 0.2),
+                      child: Image.asset("assets/images/user.png"),
                     ),
                   ),
-                ),
-                onTap: () {
-                  // select(context);
-                },
+                  const SizedBox(height: 16),
+                  name != ""
+                      ? Text(
+                          name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+
+                  const SizedBox(height: 8),
+                  mail == ""
+                      ? const SizedBox.shrink()
+                      : Text(
+                          mail,
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
+                        ),
+
+                  // const Text(
+                  //   "mail@gmail.com",
+                  //   style: TextStyle(
+                  //     color: Colors.white70,
+                  //     fontWeight: FontWeight.w700,
+                  //     fontSize: 16,
+                  //   ),
+                  // ),
+                  const SizedBox(height: 8),
+                  widgetTile(
+                      height, width, context, "Language", Icons.language),
+                  widgetTile(height, width, context, "History", Icons.history),
+                  widgetTile(
+                      height, width, context, "Settings", Icons.settings),
+                ],
               ),
-              const Text(
-                "Lorem Ipsum",
-                style: TextStyle(color: Colors.white, fontSize: 25),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              const Text(
-                "Lorem Ipsum",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              buildcontainer("Settings", null, textcontroller),
-              buildcontainer("Notifications", null, textcontroller),
-              ListTile(
-                leading: const Icon(
-                  Icons.exit_to_app_sharp,
-                  color: Colors.red,
-                ),
-                title: const Text(
-                  "Sign out",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onTap: () {
-                  signOut(context);
-                },
-              ),
-            ],
-          )
-        ],
+            ),
+          ),
+        ),
       ),
     );
   }
 
-  Widget buildcontainer(
-      String str, void doit, TextEditingController controller) {
+  Widget widgetTile(
+      double height, double width, BuildContext context, String title, icon) {
     return Container(
-      margin: const EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
-      padding: const EdgeInsets.only(right: 15, left: 20),
-      height: 50,
-      width: double.infinity,
+      margin: const EdgeInsets.only(
+        left: 36,
+        right: 36,
+        top: 8,
+        bottom: 8,
+      ),
+      height: height * 0.08,
+      width: width,
       decoration: BoxDecoration(
-          color: Colors.grey, borderRadius: BorderRadius.circular(20)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            str,
-            style: const TextStyle(fontSize: 18),
-          ),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_forward_ios))
-        ],
+        color: Colors.white10,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.red, size: 30),
+            const SizedBox(width: 8),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 }
-/*Container(
-        margin: const EdgeInsets.symmetric(
-          vertical: 15,
-        ),
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(
-          vertical: 10,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            15,
-          ),
-          color: Colors.red.withOpacity(
-            0.2,
-          ),
-          border: Border.all(
-            color: Colors.red,
-          ),
-        ),
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: str,
-            hintStyle: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-            border: InputBorder.none,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      )*/

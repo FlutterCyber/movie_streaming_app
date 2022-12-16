@@ -80,7 +80,7 @@ class DownloadItemScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          width: w - h * 0.31,
+                          width: w - h * 0.34,
                           child: LinearProgressIndicator(
                             backgroundColor: Colors.grey,
                             color: Colors.red,
