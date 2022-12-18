@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -63,7 +64,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
     return Scaffold(
       backgroundColor: const Color(0xff38404b).withOpacity(0.8),
       appBar: AppBar(
-        title: const Text("Favorites"),
+        title: Text("Favorites".tr()),
         centerTitle: true,
         backgroundColor: const Color(0xff38404b),
       ),

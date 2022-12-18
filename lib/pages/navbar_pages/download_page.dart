@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_streaming_app/models/movie_model.dart';
 import 'package:movie_streaming_app/providers/download_manager.dart';
@@ -51,7 +52,7 @@ class _DownloadPageState extends State<DownloadPage> {
     return Scaffold(
       backgroundColor: const Color(0xff38404b).withOpacity(0.8),
       appBar: AppBar(
-        title: const Text("Downloads"),
+        title: Text("Downloads".tr()),
         centerTitle: true,
         backgroundColor: const Color(0xff38404b),
       ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
@@ -100,9 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   SplashAppBar(movies: movies),
-                  ScrollTest(movies: action, category: "Action"),
-                  ScrollTest(movies: drama, category: "Drama"),
-                  ScrollTest(movies: comedy, category: "Comedy"),
+                  ScrollTest(movies: action, category: "Action".tr()),
+                  ScrollTest(movies: drama, category: "Drama".tr()),
+                  ScrollTest(movies: comedy, category: "Comedy".tr()),
                   Container(
                     height: 100,
                     decoration: const BoxDecoration(
@@ -220,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: Text(
-                "Movies",
+                "Movies".tr(),
                 style: TextStyle(
                   color: categoryIndex == 0
                       ? const Color(0xff38404b)
@@ -254,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: Text(
-                "Series",
+                "Series".tr(),
                 style: TextStyle(
                   color: categoryIndex == 1
                       ? const Color(0xff38404b)
@@ -288,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: Text(
-                "Trailers",
+                "Trailers".tr(),
                 style: TextStyle(
                   color: categoryIndex == 2
                       ? const Color(0xff38404b)

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -12,12 +13,22 @@ import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   FirebaseAuth.initialize(apiKey, VolatileStore());
   Firestore.initialize(projectID);
   await FlutterDownloader.initialize(debug: true);
-  runApp(const MyApp());
+  runApp(EasyLocalization(
+    child: MyApp(),
+    supportedLocales: [
+      Locale("en","US"),
+      Locale("uz","UZ"),
+      Locale("ru","BL"),
+    ],
+    path: "assets/translations",
+    fallbackLocale: Locale("en","US"),
+  ));
 }
 
 const apiKey = "AIzaSyCm8YgKr81h1y7O5JtVo1a1CogERPxdjyE";
@@ -34,6 +45,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
       ),
       home: startPage(),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       routes: {
         //  MoviePage.id: (context) => const MoviePage(),
         StartPage.id: (context) => const StartPage(),

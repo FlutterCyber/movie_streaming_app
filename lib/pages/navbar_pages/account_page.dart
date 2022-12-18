@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_streaming_app/pages/language_page.dart';
 import 'package:movie_streaming_app/pages/login_pages/start_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -118,10 +120,29 @@ class _AccountState extends State<Account> {
                   // ),
                   const SizedBox(height: 8),
                   widgetTile(
-                      height, width, context, "Language", Icons.language),
-                  widgetTile(height, width, context, "History", Icons.history),
+                    height,
+                    width,
+                    context,
+                    "Language".tr(),
+                    Icons.language,
+                    openLang,
+                  ),
                   widgetTile(
-                      height, width, context, "Settings", Icons.settings),
+                    height,
+                    width,
+                    context,
+                    "History".tr(),
+                    Icons.history,
+                    null,
+                  ),
+                  widgetTile(
+                    height,
+                    width,
+                    context,
+                    "Settings".tr(),
+                    Icons.settings,
+                    null,
+                  ),
                 ],
               ),
             ),
@@ -131,37 +152,49 @@ class _AccountState extends State<Account> {
     );
   }
 
-  Widget widgetTile(
-      double height, double width, BuildContext context, String title, icon) {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 36,
-        right: 36,
-        top: 8,
-        bottom: 8,
-      ),
-      height: height * 0.08,
-      width: width,
-      decoration: BoxDecoration(
-        color: Colors.white10,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: Colors.red, size: 30),
-            const SizedBox(width: 8),
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white70,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            )
-          ],
+  Widget widgetTile(double height, double width, BuildContext context,
+      String title, icon, onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(
+          left: 36,
+          right: 36,
+          top: 8,
+          bottom: 8,
         ),
+        height: height * 0.08,
+        width: width,
+        decoration: BoxDecoration(
+          color: Colors.white10,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: Colors.red, size: 30),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void openLang() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const LanguagePage(),
       ),
     );
   }
