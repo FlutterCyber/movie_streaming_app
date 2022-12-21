@@ -68,17 +68,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
         centerTitle: true,
         backgroundColor: const Color(0xff38404b),
       ),
-      body: movies.isEmpty
-          ? Container(
-              padding: EdgeInsets.all(w * 0.2),
-              height: double.infinity,
-              width: double.infinity,
-              color: const Color(0xff38404b).withOpacity(0.8),
-              child: Center(
-                child: Lottie.asset("assets/lotties/empty1.json"),
-              ),
-            )
-          : ListView.builder(
+      body: ListView.builder(
               itemCount: movies.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(

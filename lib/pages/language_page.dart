@@ -88,7 +88,7 @@ class _LanguagePageState extends State<LanguagePage> {
       String title, icon, String tr, String TR) {
     return GestureDetector(
       onTap:() {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (_) => const HomePage(),

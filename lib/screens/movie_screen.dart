@@ -1,58 +1,33 @@
 import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:movie_streaming_app/models/movie_model.dart';
 import 'package:movie_streaming_app/player/player.dart';
 import 'package:movie_streaming_app/providers/movies_provider.dart';
 import 'package:movie_streaming_app/screens/loading_widget.dart';
-import 'package:movie_streaming_app/screens/movie_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/download_manager.dart';
 
-class MoviePage extends StatefulWidget {
+class MovieScreen extends StatefulWidget {
   static const String id = "page";
 
-  const MoviePage({required this.movie, super.key});
+  const MovieScreen({required this.movie, super.key});
 
-  final Document movie;
+  final MovieModel movie;
 
   @override
-  State<MoviePage> createState() => _MoviePageState();
+  State<MovieScreen> createState() => _MovieScreenState();
 }
 
-class _MoviePageState extends State<MoviePage> {
+class _MovieScreenState extends State<MovieScreen> {
   PageController controller = PageController();
   bool showInfo = false;
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-
-    String genre = '';
-
-    if (widget.movie.map['movie']['isThriller']) {
-      genre = " Thriller";
-    }
-    if (widget.movie.map['movie']['isHorror']) {
-      genre = " Horror";
-    }
-    if (widget.movie.map['movie']['isAction']) {
-      genre = " Action";
-    }
-    if (widget.movie.map['movie']['isComedic']) {
-      genre = " Comedy";
-    }
-    if (widget.movie.map['movie']['isFantastic']) {
-      genre = " Fantastic";
-    }
-    if (widget.movie.map['movie']['isDrama']) {
-      genre = " Drama";
-    }
-
     return Scaffold(
       backgroundColor: const Color(0xff38404b),
       extendBodyBehindAppBar: true,
@@ -67,7 +42,7 @@ class _MoviePageState extends State<MoviePage> {
                   CachedNetworkImage(
                     height: height * 0.55,
                     fit: BoxFit.cover,
-                    imageUrl: widget.movie.map['movie']['imgUrl'],
+                    imageUrl: widget.movie.imgUrl,
                     placeholder: (context, url) => Loading.loading(),
                     errorWidget: (context, url, error) => const Icon(
                       Icons.movie,
@@ -109,10 +84,8 @@ class _MoviePageState extends State<MoviePage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Player(
-                                        vd_url: widget.movie.map['movie']
-                                            ['videoUrl'],
-                                      ),
+                                      builder: (context) =>
+                                          Player(vd_url: widget.movie.videoUrl),
                                     ),
                                   );
                                 },
@@ -137,7 +110,7 @@ class _MoviePageState extends State<MoviePage> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  widget.movie.map['movie']['name'],
+                                  widget.movie.name,
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 28,
@@ -164,7 +137,7 @@ class _MoviePageState extends State<MoviePage> {
                                   width: 5,
                                 ),
                                 Text(
-                                  widget.movie.map['movie']['year'].toString(),
+                                  widget.movie.year.toString(),
                                   style: const TextStyle(
                                     color: Colors.white,
                                   ),
@@ -188,42 +161,11 @@ class _MoviePageState extends State<MoviePage> {
                                   width: 5,
                                 ),
                                 Text(
-                                  widget.movie.map['movie']['rating']
-                                      .toString(),
+                                  widget.movie.rating.toString(),
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Text(
-                                  "|",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Icon(
-                                  IconlyBold.video,
-                                  color: Colors.red,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  genre,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
                                 ),
                               ],
                             ),
@@ -258,24 +200,8 @@ class _MoviePageState extends State<MoviePage> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
-                                      MovieModel movie = MovieModel(
-                                          id: widget.movie.id,
-                                          name: widget.movie.map['movie']
-                                              ['name'],
-                                          year: widget.movie.map['movie']
-                                              ['year'],
-                                          rating: widget.movie.map['movie']
-                                              ['rating'],
-                                          title: widget.movie.map['movie']
-                                              ['title'],
-                                          imgUrl: widget.movie.map['movie']
-                                              ['imgUrl'],
-                                          videoUrl: widget.movie.map['movie']
-                                              ['videoUrl'],
-                                          path: "");
-
                                       bool res = DownloadManager.instance
-                                          .downloadMovie(movie);
+                                          .downloadMovie(widget.movie);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
@@ -328,7 +254,7 @@ class _MoviePageState extends State<MoviePage> {
               ),
               color: const Color(0xff38404b),
               child: Text(
-                widget.movie.map['movie']['title'],
+                widget.movie.title,
                 style: TextStyle(
                   color: Colors.grey.shade300,
                   fontWeight: FontWeight.bold,
@@ -361,120 +287,114 @@ class _MoviePageState extends State<MoviePage> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        if(context
-                            .watch<MoviesProvider>()
-                            .movies[index].id != widget.movie.id){
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => MovieScreen(
-                                    movie: context
-                                        .watch<MoviesProvider>()
-                                        .movies[index],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                left: index == 0 ? 16 : 8,
-                                right: 8,
-                              ),
-                              //height: height * 0.3,
-                              width: MediaQuery.of(context).size.width * 0.32,
-                              decoration: BoxDecoration(
-                                color: Colors.black54,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Stack(
-                                children: [
-                                  Center(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: CachedNetworkImage(
-                                        height: height * 0.35,
-                                        fit: BoxFit.cover,
-                                        imageUrl: context
-                                            .watch<MoviesProvider>()
-                                            .movies[index]
-                                            .imgUrl,
-                                        placeholder: (context, url) =>
-                                            Loading.loading(),
-                                        errorWidget: (context, url, error) =>
-                                        const Icon(
-                                          Icons.movie,
-                                          size: 50,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      SizedBox(
-                                        height: height * 0.3,
-                                        width: MediaQuery.of(context).size.width *
-                                            0.32,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.end,
-                                          //  crossAxisAlignment: CrossAxisAlignment.end,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                              const BorderRadius.only(
-                                                bottomRight: Radius.circular(12),
-                                                bottomLeft: Radius.circular(12),
-                                              ),
-                                              child: BackdropFilter(
-                                                filter: ImageFilter.blur(
-                                                  sigmaX: 15,
-                                                  sigmaY: 15,
-                                                ),
-                                                child: Center(
-                                                  child: Padding(
-                                                    padding:
-                                                    const EdgeInsets.only(
-                                                      left: 3,
-                                                      right: 3,
-                                                      top: 4,
-                                                      bottom: 4,
-                                                    ),
-                                                    child: Text(
-                                                      context
-                                                          .watch<MoviesProvider>()
-                                                          .movies[index]
-                                                          .name,
-                                                      textAlign: TextAlign.center,
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                        fontSize: 15,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        } else {
-                          return const SizedBox.shrink();
-                        }
+                       if(context.watch<MoviesProvider>().movies[index].name != widget.movie.name){
+                         return GestureDetector(
+                           onTap: (){
+                             Navigator.pushReplacement(
+                               context,
+                               MaterialPageRoute(
+                                 builder: (_) => MovieScreen(
+                                   movie: context
+                                       .watch<MoviesProvider>()
+                                       .movies[index],
+                                 ),
+                               ),
+                             );
+                           },
+                           child: Container(
+                             margin: EdgeInsets.only(
+                               left: index == 0 ? 16 : 8,
+                               right: 8,
+                             ),
+                             //height: height * 0.3,
+                             width: MediaQuery.of(context).size.width * 0.32,
+                             decoration: BoxDecoration(
+                               color: Colors.black54,
+                               borderRadius: BorderRadius.circular(12),
+                             ),
+                             child: Stack(
+                               children: [
+                                 Center(
+                                   child: ClipRRect(
+                                     borderRadius: BorderRadius.circular(12),
+                                     child: CachedNetworkImage(
+                                       height: height * 0.35,
+                                       fit: BoxFit.cover,
+                                       imageUrl: context
+                                           .watch<MoviesProvider>()
+                                           .movies[index]
+                                           .imgUrl,
+                                       placeholder: (context, url) =>
+                                           Loading.loading(),
+                                       errorWidget: (context, url, error) =>
+                                       const Icon(
+                                         Icons.movie,
+                                         size: 50,
+                                         color: Colors.red,
+                                       ),
+                                     ),
+                                   ),
+                                 ),
+                                 Column(
+                                   mainAxisAlignment: MainAxisAlignment.end,
+                                   children: [
+                                     SizedBox(
+                                       height: height * 0.3,
+                                       width: MediaQuery.of(context).size.width *
+                                           0.32,
+                                       child: Column(
+                                         mainAxisAlignment: MainAxisAlignment.end,
+                                         //  crossAxisAlignment: CrossAxisAlignment.end,
+                                         children: [
+                                           ClipRRect(
+                                             borderRadius: const BorderRadius.only(
+                                               bottomRight: Radius.circular(12),
+                                               bottomLeft: Radius.circular(12),
+                                             ),
+                                             child: BackdropFilter(
+                                               filter: ImageFilter.blur(
+                                                 sigmaX: 15,
+                                                 sigmaY: 15,
+                                               ),
+                                               child: Center(
+                                                 child: Padding(
+                                                   padding: const EdgeInsets.only(
+                                                     left: 3,
+                                                     right: 3,
+                                                     top: 4,
+                                                     bottom: 4,
+                                                   ),
+                                                   child: Text(
+                                                     context
+                                                         .watch<MoviesProvider>()
+                                                         .movies[index]
+                                                         .name,
+                                                     textAlign: TextAlign.center,
+                                                     style: const TextStyle(
+                                                       color: Colors.white,
+                                                       fontWeight: FontWeight.w600,
+                                                       fontSize: 15,
+                                                     ),
+                                                   ),
+                                                 ),
+                                               ),
+                                             ),
+                                           ),
+                                         ],
+                                       ),
+                                     ),
+                                   ],
+                                 ),
+                               ],
+                             ),
+                           ),
+                         );
+                       } else {
+                         return const SizedBox.shrink();
+                       }
                       },
                       itemCount:
-                          context.watch<MoviesProvider>().movies.length - 4,
+                          context.watch<MoviesProvider>().movies.length,
                     ),
                   )
                 ],

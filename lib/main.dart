@@ -11,6 +11,8 @@ import 'package:movie_streaming_app/pages/home_page.dart';
 import 'package:movie_streaming_app/pages/login_pages/start_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
+import 'package:movie_streaming_app/providers/movies_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -19,16 +21,25 @@ Future<void> main() async {
   FirebaseAuth.initialize(apiKey, VolatileStore());
   Firestore.initialize(projectID);
   await FlutterDownloader.initialize(debug: true);
-  runApp(EasyLocalization(
-    child: MyApp(),
-    supportedLocales: [
-      Locale("en","US"),
-      Locale("uz","UZ"),
-      Locale("ru","BL"),
-    ],
-    path: "assets/translations",
-    fallbackLocale: Locale("en","US"),
-  ));
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale("en", "US"),
+        Locale("uz", "UZ"),
+        Locale("ru", "BL"),
+      ],
+      path: "assets/translations",
+      fallbackLocale: const Locale("en", "US"),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => MoviesProvider(),
+          ),
+        ],
+        child: const MyApp(),
+      ),
+    ),
+  );
 }
 
 const apiKey = "AIzaSyCm8YgKr81h1y7O5JtVo1a1CogERPxdjyE";
@@ -43,6 +54,9 @@ class MyApp extends StatelessWidget {
       title: 'WatchMe Demo',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        appBarTheme: AppBarTheme(
+          backgroundColor: const Color(0xff38404b).withOpacity(0.8),
+        ),
       ),
       home: startPage(),
       localizationsDelegates: context.localizationDelegates,

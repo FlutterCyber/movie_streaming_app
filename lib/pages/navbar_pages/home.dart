@@ -2,12 +2,20 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:movie_streaming_app/models/cartoon_model.dart';
+import 'package:movie_streaming_app/models/movie_model.dart';
+import 'package:movie_streaming_app/models/serie_model.dart';
+import 'package:movie_streaming_app/providers/movies_provider.dart';
+import 'package:movie_streaming_app/screens/cartoon_reels.dart';
 import 'package:movie_streaming_app/screens/loading_widget.dart';
+import 'package:movie_streaming_app/screens/search_bar.dart';
+import 'package:movie_streaming_app/screens/serie_reels.dart';
 import 'package:movie_streaming_app/screens/splash_appbar.dart';
 import 'package:movie_streaming_app/screens/movie_reels.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String id = "jodfiejdf";
+  static const String id = "jod1fie2jd3f";
 
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -16,6 +24,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ScrollController sController = ScrollController();
+
   ///
   ///
   PageController controller = PageController();
@@ -77,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        flexibleSpace: categoryRow(),
+        flexibleSpace: categoryRow(sController),
       ),
       body: movies.isEmpty
           ? Container(
@@ -97,22 +107,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             )
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  SplashAppBar(movies: movies),
-                  ScrollTest(movies: action, category: "Action".tr()),
-                  ScrollTest(movies: drama, category: "Drama".tr()),
-                  ScrollTest(movies: comedy, category: "Comedy".tr()),
-                  Container(
-                    height: 100,
-                    decoration: const BoxDecoration(
-                      color: Color(0xff38404b),
-                      //color: Colors.red
-                    ),
-                  )
-                ],
-              ),
+          : CustomScrollView(
+              controller: sController,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      const SplashAppBar(),
+                      ScrollTest(movies: action, category: "Action".tr()),
+                      ScrollTest(movies: drama, category: "Drama".tr()),
+                      ScrollTest(movies: comedy, category: "Comedy".tr()),
+                      const SerieReels(),
+                      const CartoonsReels(),
+                      Container(
+                        height: 100,
+                        decoration: const BoxDecoration(
+                          color: Color(0xff38404b),
+                          //color: Colors.red
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
     );
   }
@@ -184,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget categoryRow() {
+  Widget categoryRow(ScrollController controller) {
     return Padding(
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).size.height * 0.04,
@@ -197,10 +214,16 @@ class _HomeScreenState extends State<HomeScreen> {
               IconlyLight.search,
               color: Colors.white,
             ),
+            onTap: () {
+              showSearch(context: context, delegate: CustomSearchDelegate());
+            },
           ),
           GestureDetector(
             onTap: () {
               setState(() {
+                controller.animateTo(MediaQuery.of(context).size.height * 0.45,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.linear);
                 categoryIndex = 0;
               });
             },
@@ -235,6 +258,9 @@ class _HomeScreenState extends State<HomeScreen> {
           GestureDetector(
             onTap: () {
               setState(() {
+                controller.animateTo(MediaQuery.of(context).size.height * 1.8,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.linear);
                 categoryIndex = 1;
               });
             },
@@ -269,6 +295,10 @@ class _HomeScreenState extends State<HomeScreen> {
           GestureDetector(
             onTap: () {
               setState(() {
+                //  controller.jumpTo(MediaQuery.of(context).size.height * 3);
+                controller.animateTo(MediaQuery.of(context).size.height * 3,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.linear);
                 categoryIndex = 2;
               });
             },
@@ -289,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: Text(
-                "Trailers".tr(),
+                "Cartoons".tr(),
                 style: TextStyle(
                   color: categoryIndex == 2
                       ? const Color(0xff38404b)

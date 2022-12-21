@@ -5,6 +5,8 @@ import 'package:movie_streaming_app/pages/navbar_pages/account_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/download_page.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/home.dart';
 import 'package:movie_streaming_app/pages/navbar_pages/playlist.dart';
+import 'package:movie_streaming_app/providers/movies_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../for test/download_video.dart';
 
@@ -21,6 +23,14 @@ class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
   PageController controller = PageController();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    context.read<MoviesProvider>().getAllMovies();
+    context.read<MoviesProvider>().getAllSeries();
+    context.read<MoviesProvider>().getAllCartoons();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

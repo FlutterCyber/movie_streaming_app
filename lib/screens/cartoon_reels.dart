@@ -1,28 +1,20 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_streaming_app/pages/movie_page.dart';
-import 'package:movie_streaming_app/screens/favourite.dart';
+import 'package:movie_streaming_app/providers/movies_provider.dart';
+import 'package:movie_streaming_app/screens/cartoon_screen.dart';
 import 'package:movie_streaming_app/screens/loading_widget.dart';
-import 'package:movie_streaming_app/screens/see_all_screen.dart';
+import 'package:provider/provider.dart';
 
-class ScrollTest extends StatefulWidget {
-  const ScrollTest({
-    super.key,
-    required this.movies,
-    required this.category,
-  });
-
-  final List<Document> movies;
-  final String category;
+class CartoonsReels extends StatefulWidget {
+  const CartoonsReels({super.key});
 
   @override
-  State<ScrollTest> createState() => _ScrollTestState();
+  State<CartoonsReels> createState() => _CartoonsReelsState();
 }
 
-class _ScrollTestState extends State<ScrollTest> {
+class _CartoonsReelsState extends State<CartoonsReels> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -38,9 +30,9 @@ class _ScrollTestState extends State<ScrollTest> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.category,
-                  style: const TextStyle(
+                const Text(
+                  "Cartoons",
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -51,10 +43,7 @@ class _ScrollTestState extends State<ScrollTest> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => SeeAllScreen(
-                          movies: widget.movies,
-                          name: widget.category,
-                        ),
+                        builder: (_) => Container(),
                       ),
                     );
                   },
@@ -72,15 +61,16 @@ class _ScrollTestState extends State<ScrollTest> {
             Expanded(
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: widget.movies.length > 5 ? 5 : widget.movies.length,
+                itemCount: context.watch<MoviesProvider>().cartoons.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MoviePage(
-                            movie: widget.movies[index],
+                          builder: (context) => CartoonScreen(
+                            cartoon:
+                                context.watch<MoviesProvider>().cartoons[index],
                           ),
                         ),
                       );
@@ -104,8 +94,10 @@ class _ScrollTestState extends State<ScrollTest> {
                               height: height * 0.43,
                               width: width * 0.43,
                               fit: BoxFit.cover,
-                              imageUrl: widget.movies[index].map['movie']
-                                  ['imgUrl'],
+                              imageUrl: context
+                                  .watch<MoviesProvider>()
+                                  .cartoons[index]
+                                  .imgUrl,
                               placeholder: (context, url) => Loading.loading(),
                               errorWidget: (context, url, error) => const Icon(
                                 Icons.movie,
@@ -126,7 +118,7 @@ class _ScrollTestState extends State<ScrollTest> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.start,
                                       children: [
                                         SizedBox(
                                           child: ClipRRect(
@@ -147,7 +139,7 @@ class _ScrollTestState extends State<ScrollTest> {
                                                 child: Row(
                                                   children: [
                                                     Text(
-                                                      "${widget.movies[index].map['movie']['rating']} ",
+                                                      "${context.watch<MoviesProvider>().cartoons[index].rating} ",
                                                       style: const TextStyle(
                                                         color: Colors.white,
                                                         fontWeight:
@@ -164,10 +156,10 @@ class _ScrollTestState extends State<ScrollTest> {
                                             ),
                                           ),
                                         ),
-                                        Favourite(
-                                          movie: widget.movies[index],
-                                          id: widget.movies[index].id,
-                                        ),
+                                        // Favourite(
+                                        //   movie: Document(),
+                                        //   id: widget.movies[index].id,
+                                        // ),
                                       ],
                                     ),
                                   ),
@@ -192,8 +184,10 @@ class _ScrollTestState extends State<ScrollTest> {
                                             bottom: 4,
                                           ),
                                           child: Text(
-                                            widget.movies[index].map['movie']
-                                                ['name'],
+                                            context
+                                                .watch<MoviesProvider>()
+                                                .cartoons[index]
+                                                .name,
                                             maxLines: 2,
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(

@@ -1,58 +1,35 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:movie_streaming_app/models/cartoon_model.dart';
 import 'package:movie_streaming_app/models/movie_model.dart';
 import 'package:movie_streaming_app/player/player.dart';
 import 'package:movie_streaming_app/providers/movies_provider.dart';
 import 'package:movie_streaming_app/screens/loading_widget.dart';
-import 'package:movie_streaming_app/screens/movie_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/download_manager.dart';
 
-class MoviePage extends StatefulWidget {
+class CartoonScreen extends StatefulWidget {
   static const String id = "page";
 
-  const MoviePage({required this.movie, super.key});
+  const CartoonScreen({required this.cartoon, super.key});
 
-  final Document movie;
+  final CartoonModel cartoon;
 
   @override
-  State<MoviePage> createState() => _MoviePageState();
+  State<CartoonScreen> createState() => _CartoonScreenState();
 }
 
-class _MoviePageState extends State<MoviePage> {
+class _CartoonScreenState extends State<CartoonScreen> {
   PageController controller = PageController();
   bool showInfo = false;
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-
-    String genre = '';
-
-    if (widget.movie.map['movie']['isThriller']) {
-      genre = " Thriller";
-    }
-    if (widget.movie.map['movie']['isHorror']) {
-      genre = " Horror";
-    }
-    if (widget.movie.map['movie']['isAction']) {
-      genre = " Action";
-    }
-    if (widget.movie.map['movie']['isComedic']) {
-      genre = " Comedy";
-    }
-    if (widget.movie.map['movie']['isFantastic']) {
-      genre = " Fantastic";
-    }
-    if (widget.movie.map['movie']['isDrama']) {
-      genre = " Drama";
-    }
-
     return Scaffold(
       backgroundColor: const Color(0xff38404b),
       extendBodyBehindAppBar: true,
@@ -67,7 +44,7 @@ class _MoviePageState extends State<MoviePage> {
                   CachedNetworkImage(
                     height: height * 0.55,
                     fit: BoxFit.cover,
-                    imageUrl: widget.movie.map['movie']['imgUrl'],
+                    imageUrl: widget.cartoon.imgUrl,
                     placeholder: (context, url) => Loading.loading(),
                     errorWidget: (context, url, error) => const Icon(
                       Icons.movie,
@@ -110,8 +87,7 @@ class _MoviePageState extends State<MoviePage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => Player(
-                                        vd_url: widget.movie.map['movie']
-                                            ['videoUrl'],
+                                        vd_url: widget.cartoon.videoUrl,
                                       ),
                                     ),
                                   );
@@ -137,7 +113,7 @@ class _MoviePageState extends State<MoviePage> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  widget.movie.map['movie']['name'],
+                                  widget.cartoon.name,
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 28,
@@ -164,7 +140,7 @@ class _MoviePageState extends State<MoviePage> {
                                   width: 5,
                                 ),
                                 Text(
-                                  widget.movie.map['movie']['year'].toString(),
+                                  widget.cartoon.year.toString(),
                                   style: const TextStyle(
                                     color: Colors.white,
                                   ),
@@ -188,42 +164,11 @@ class _MoviePageState extends State<MoviePage> {
                                   width: 5,
                                 ),
                                 Text(
-                                  widget.movie.map['movie']['rating']
-                                      .toString(),
+                                  widget.cartoon.rating.toString(),
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Text(
-                                  "|",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Icon(
-                                  IconlyBold.video,
-                                  color: Colors.red,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  genre,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
                                 ),
                               ],
                             ),
@@ -258,24 +203,19 @@ class _MoviePageState extends State<MoviePage> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
-                                      MovieModel movie = MovieModel(
-                                          id: widget.movie.id,
-                                          name: widget.movie.map['movie']
-                                              ['name'],
-                                          year: widget.movie.map['movie']
-                                              ['year'],
-                                          rating: widget.movie.map['movie']
-                                              ['rating'],
-                                          title: widget.movie.map['movie']
-                                              ['title'],
-                                          imgUrl: widget.movie.map['movie']
-                                              ['imgUrl'],
-                                          videoUrl: widget.movie.map['movie']
-                                              ['videoUrl'],
-                                          path: "");
-
+                                      var cartoon = MovieModel(
+                                        id: widget.cartoon.name
+                                            .replaceAll(" ", ""),
+                                        name: widget.cartoon.name,
+                                        year: widget.cartoon.year,
+                                        rating: widget.cartoon.rating,
+                                        title: widget.cartoon.title,
+                                        imgUrl: widget.cartoon.imgUrl,
+                                        videoUrl: widget.cartoon.videoUrl,
+                                        path: '',
+                                      );
                                       bool res = DownloadManager.instance
-                                          .downloadMovie(movie);
+                                          .downloadMovie(cartoon);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
@@ -328,7 +268,7 @@ class _MoviePageState extends State<MoviePage> {
               ),
               color: const Color(0xff38404b),
               child: Text(
-                widget.movie.map['movie']['title'],
+                widget.cartoon.title,
                 style: TextStyle(
                   color: Colors.grey.shade300,
                   fontWeight: FontWeight.bold,
@@ -361,18 +301,20 @@ class _MoviePageState extends State<MoviePage> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        if(context
-                            .watch<MoviesProvider>()
-                            .movies[index].id != widget.movie.id){
+                        if (context
+                                .watch<MoviesProvider>()
+                                .cartoons[index]
+                                .name !=
+                            widget.cartoon.name) {
                           return GestureDetector(
                             onTap: () {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => MovieScreen(
-                                    movie: context
+                                  builder: (_) => CartoonScreen(
+                                    cartoon: context
                                         .watch<MoviesProvider>()
-                                        .movies[index],
+                                        .cartoons[index],
                                   ),
                                 ),
                               );
@@ -398,12 +340,12 @@ class _MoviePageState extends State<MoviePage> {
                                         fit: BoxFit.cover,
                                         imageUrl: context
                                             .watch<MoviesProvider>()
-                                            .movies[index]
+                                            .cartoons[index]
                                             .imgUrl,
                                         placeholder: (context, url) =>
                                             Loading.loading(),
                                         errorWidget: (context, url, error) =>
-                                        const Icon(
+                                            const Icon(
                                           Icons.movie,
                                           size: 50,
                                           color: Colors.red,
@@ -416,17 +358,19 @@ class _MoviePageState extends State<MoviePage> {
                                     children: [
                                       SizedBox(
                                         height: height * 0.3,
-                                        width: MediaQuery.of(context).size.width *
-                                            0.32,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.32,
                                         child: Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                              MainAxisAlignment.end,
                                           //  crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
-                                              const BorderRadius.only(
-                                                bottomRight: Radius.circular(12),
+                                                  const BorderRadius.only(
+                                                bottomRight:
+                                                    Radius.circular(12),
                                                 bottomLeft: Radius.circular(12),
                                               ),
                                               child: BackdropFilter(
@@ -437,7 +381,7 @@ class _MoviePageState extends State<MoviePage> {
                                                 child: Center(
                                                   child: Padding(
                                                     padding:
-                                                    const EdgeInsets.only(
+                                                        const EdgeInsets.only(
                                                       left: 3,
                                                       right: 3,
                                                       top: 4,
@@ -445,14 +389,16 @@ class _MoviePageState extends State<MoviePage> {
                                                     ),
                                                     child: Text(
                                                       context
-                                                          .watch<MoviesProvider>()
-                                                          .movies[index]
+                                                          .watch<
+                                                              MoviesProvider>()
+                                                          .cartoons[index]
                                                           .name,
-                                                      textAlign: TextAlign.center,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       style: const TextStyle(
                                                         color: Colors.white,
                                                         fontWeight:
-                                                        FontWeight.w600,
+                                                            FontWeight.w600,
                                                         fontSize: 15,
                                                       ),
                                                     ),
@@ -474,7 +420,7 @@ class _MoviePageState extends State<MoviePage> {
                         }
                       },
                       itemCount:
-                          context.watch<MoviesProvider>().movies.length - 4,
+                          context.watch<MoviesProvider>().cartoons.length,
                     ),
                   )
                 ],
