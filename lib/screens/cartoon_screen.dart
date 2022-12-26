@@ -9,6 +9,7 @@ import 'package:movie_streaming_app/player/player.dart';
 import 'package:movie_streaming_app/providers/movies_provider.dart';
 import 'package:movie_streaming_app/screens/loading_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../providers/download_manager.dart';
 
@@ -239,7 +240,10 @@ class _CartoonScreenState extends State<CartoonScreen> {
                                     ),
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Share.share(
+                                          '${widget.cartoon.name} \nYear: ${widget.cartoon.year} | Rating: ${widget.cartoon.rating}\n\nWatch in WatchMe! \nhttps://fluttuz.t.me');
+                                    },
                                     icon: const Icon(
                                       Icons.share,
                                       color: Colors.red,
@@ -247,7 +251,7 @@ class _CartoonScreenState extends State<CartoonScreen> {
                                     ),
                                   ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),

@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:movie_streaming_app/pages/login_pages/sign_up.dart';
 import 'package:movie_streaming_app/pages/login_pages/sing_in.dart';
 import 'package:movie_streaming_app/pages/lottie_page.dart';
@@ -20,7 +19,6 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   FirebaseAuth.initialize(apiKey, VolatileStore());
   Firestore.initialize(projectID);
-  await FlutterDownloader.initialize(debug: true);
   runApp(
     EasyLocalization(
       supportedLocales: const [

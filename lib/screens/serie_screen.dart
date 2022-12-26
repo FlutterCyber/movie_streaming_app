@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:movie_streaming_app/models/serie_model.dart';
+import 'package:movie_streaming_app/player/player.dart';
 import 'package:movie_streaming_app/screens/loading_widget.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SerieScreen extends StatefulWidget {
   const SerieScreen({Key? key, required this.serie}) : super(key: key);
@@ -42,6 +44,18 @@ class _SerieScreenState extends State<SerieScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xff38404b),
         title: Text(widget.serie.name),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Share.share(
+                  '${widget.serie.name} \nYear: ${widget.serie.year} | Rating: ${widget.serie.rating}\n\nWatch in WatchMe! \nhttps://fluttuz.t.me');
+            },
+            icon: const Icon(
+              Icons.share,
+              color: Colors.red,
+            ),
+          ),
+        ],
       ),
       body: CustomScrollView(
         slivers: [
@@ -154,40 +168,52 @@ class _SerieScreenState extends State<SerieScreen> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return Container(
-                  margin: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 8,
-                    bottom: 10,
-                  ),
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 10,
-                    top: 8,
-                    bottom: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xff38404b),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        IconlyBold.play,
-                        color: Colors.red,
-                        size: 36,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "Chapter ${index + 1}",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.white60,
-                          fontWeight: FontWeight.w800,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => Player(
+                          vd_url: widget.serie.videoUrls[index],
                         ),
                       ),
-                    ],
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      top: 8,
+                      bottom: 10,
+                    ),
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 10,
+                      top: 8,
+                      bottom: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff38404b),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          IconlyBold.play,
+                          color: Colors.red,
+                          size: 36,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          "Chapter ${index + 1}",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white60,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

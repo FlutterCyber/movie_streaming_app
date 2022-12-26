@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_streaming_app/providers/movies_provider.dart';
+import 'package:movie_streaming_app/screens/all_cartoons.dart';
 import 'package:movie_streaming_app/screens/cartoon_screen.dart';
 import 'package:movie_streaming_app/screens/loading_widget.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +44,7 @@ class _CartoonsReelsState extends State<CartoonsReels> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => Container(),
+                        builder: (_) => const AllCartoons(),
                       ),
                     );
                   },
